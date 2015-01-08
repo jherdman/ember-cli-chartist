@@ -16,12 +16,8 @@ module.exports = {
     var options = app.options['ember-cli-chartist'] || {},
       modulePath = path.relative(app.project.root, __dirname),
       chartistPath = 'vendor/chartist';
-    
-    if (options.useDefaultCSS) {
-      app.import('vendor/chartist/chartist.css');
-    } else {
-      // NOTE: This is not working currently. apps are not recognizing the
-      // includePaths set here.
+
+    if (options.useCustomCSS) {
       app.options.sassOptions = app.options.sassOptions || {};
       app.options.sassOptions.includePaths = app.options.sassOptions.includePaths || [];
 
@@ -30,6 +26,8 @@ module.exports = {
 
       app.options.sassOptions.includePaths.push(path_join(modulePath,
         chartistPath, 'scss/settings'));
+    } else {
+      app.import('vendor/chartist/chartist.css');
     }
 
     app.import('vendor/chartist/chartist.js');
