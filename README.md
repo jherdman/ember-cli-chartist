@@ -8,7 +8,7 @@ It allows you to render Chartist charts in your templates using components.
 In an existing ember-cli project. Install with:
 
 ```
-npm install --save ember-cli-chartist
+npm install ember-cli-chartist --save-dev
 ```
 
 In the template where you want the chart to appear:
@@ -60,6 +60,40 @@ Chartist charts scale up and down in size. They do so at specified ratios. You c
 ```
 
 See [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#creating-a-chart-using-aspect-ratios) for the full list of ratios and info on how to create your own.
+
+### Chart configuration
+
+Chartist charts have a whole bunch of cool configuration options. You can pass those to the `chartist-chart` components with the `options` attribute. You'll need to create the options object in a similar way as you do for the `data` attribute object.
+
+```
+{{chartist-chart options=chartOptions data=model.chartData}}
+```
+
+*/app/routes/application.js*
+```javascript
+import Ember from 'ember';
+
+export default Ember.Route.extend({
+  model: function () {
+    return {
+      chartData: {
+        ...
+      },
+
+      chartOptions: {
+        showArea: true,
+        lineSmooth: false,
+
+        axisX: {
+          showGrid: false
+        }
+      }
+    }
+  }
+});
+```
+
+See the [Chartist docs](http://gionkunz.github.io/chartist-js/api-documentation.html) for all available config options. There's bunch of good-uns!
 
 ### Custom CSS
 
