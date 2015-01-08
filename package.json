@@ -1,7 +1,7 @@
 {
   "name": "ember-cli-chartist",
   "version": "0.0.1",
-  "description": "Addon for Ember CLI for fancy charts from Chartist.js",
+  "description": "Addon for Ember CLI wrapper for Chartist.js",
   "directories": {
     "doc": "doc",
     "test": "tests"
