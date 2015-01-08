@@ -61,6 +61,35 @@ Chartist charts scale up and down in size. They do so at specified ratios. You c
 
 See [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#creating-a-chart-using-aspect-ratios) for the full list of ratios and info on how to create your own.
 
+### Custom CSS
+
+By default, the compiled `chartist.css` will be included in your app's `vendor.css`. If you want to use custom CSS you can tell the addon to not include the compiled version
+
+In your app's `Brocfile.js`:
+
+```javascript
+var app = new EmberAddon({
+  'ember-cli-chartist': {
+    'useCustomCSS': true
+  }
+});
+```
+
+If you want to import the Chartist scss into your app's scss, you will need to install
+[ember-cli-sass](https://www.npmjs.com/package/ember-cli-sass). You can then import the Chartist scss with:
+
+In `app.scss`
+```scss
+@import "chartist";
+```
+
+you can also import the Chartist settings scss:
+
+```scss
+@import "chartist-settings";
+```
+
+For more on custom styles see the [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#the-sass-way)
 
 ## Development
 
