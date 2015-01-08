@@ -68,7 +68,7 @@ By default, the compiled `chartist.css` will be included in your app's `vendor.c
 In your app's `Brocfile.js`:
 
 ```javascript
-var app = new EmberAddon({
+var app = new EmberApp({
   'ember-cli-chartist': {
     'useCustomCSS': true
   }
