@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-chartist",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Addon for Ember CLI for fancy charts from Chartist.js",
   "directories": {
     "doc": "doc",
@@ -11,7 +11,10 @@
     "build": "ember build",
     "test": "ember test"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tylergaw/ember-cli-chartist.git"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },
