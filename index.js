@@ -9,6 +9,6 @@ module.exports = {
     this._super.included(app);
 
     app.import('vendor/chartist/chartist.js');
-    app.import('vendor/chartist/chartist.min.css');
+    app.import('vendor/chartist/chartist.css');
   }
 };
