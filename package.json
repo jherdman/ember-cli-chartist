@@ -1,7 +1,7 @@
 {
   "name": "ember-cli-chartist",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Addon for Ember CLI for fancy charts from Chartist.js",
   "directories": {
     "doc": "doc",
     "test": "tests"
