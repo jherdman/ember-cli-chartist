@@ -119,7 +119,7 @@ test('it can be configured with the options attribute', function () {
 });
 
 test('it can be configured with the responsiveOptions attribute', function () {
-  expect(1);
+  expect(3);
 
   var component = this.subject({
     data: chartData
@@ -138,9 +138,7 @@ test('it can be configured with the responsiveOptions attribute', function () {
   var chart = component.get('chart');
   var resOpts = chart.responsiveOptions;
 
-  console.log(chart);
-
-  equal(resOpts[0].showArea, false);
-  equal(resOpts[0].lineSmooth, false);
-  equal(resOpts[0].showLabel, false);
+  equal(resOpts[0][1].showArea, false);
+  equal(resOpts[0][1].lineSmooth, false);
+  equal(resOpts[0][1].showLabel, false);
 });

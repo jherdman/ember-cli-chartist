@@ -43,6 +43,7 @@ export default Ember.Component.extend({
   data: null,
 
   options: UNDEF,
+  responsiveOptions: UNDEF,
 
   // This is where the business happens. This will only run if checkForReqs
   // doesn't find any problems.
@@ -50,7 +51,8 @@ export default Ember.Component.extend({
     var chart = new Chartist[this.get('chartType')](
       this.get('element'),
       this.get('data'),
-      this.get('options')
+      this.get('options'),
+      this.get('responsiveOptions')
     );
 
     this.set('chart', chart);
