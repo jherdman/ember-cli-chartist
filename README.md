@@ -47,6 +47,7 @@ export default Ember.Route.extend({
 
 There are three types of charts; line, bar, and pie. The default is line. You can change the chart type using the `type` attribute.
 
+*/app/templates/application.hbs*
 ```
 {{chartist-chart type="bar" data=model.chartData}}
 ```
@@ -55,6 +56,7 @@ There are three types of charts; line, bar, and pie. The default is line. You ca
 
 Chartist charts scale up and down in size. They do so at specified ratios. You can change the ratio using the `ratio` attribute.
 
+*/app/templates/application.hbs*
 ```
 {{chartist-chart ratio="ct-golden-section" data=model.chartData}}
 ```
@@ -65,35 +67,56 @@ See [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#c
 
 Chartist charts have a whole bunch of cool configuration options. You can pass those to the `chartist-chart` components with the `options` attribute. You'll need to create the options object in a similar way as you do for the `data` attribute object.
 
+*/app/templates/application.hbs*
 ```
 {{chartist-chart options=chartOptions data=model.chartData}}
 ```
 
-*/app/routes/application.js*
+*/app/controllers/application.js*
 ```javascript
 import Ember from 'ember';
 
-export default Ember.Route.extend({
-  model: function () {
-    return {
-      chartData: {
-        ...
-      },
+export default Ember.ObjectController.extend({
+  chartOptions: {
+    showArea: true,
+    lineSmooth: false,
 
-      chartOptions: {
-        showArea: true,
-        lineSmooth: false,
-
-        axisX: {
-          showGrid: false
-        }
-      }
+    axisX: {
+      showGrid: false
     }
   }
 });
 ```
 
 See the [Chartist docs](http://gionkunz.github.io/chartist-js/api-documentation.html) for all available config options. There's bunch of good-uns!
+
+#### Responsive config
+
+You can also configure your charts for different media queries. All of the same
+configuration options are available, but you provide them via the `responsiveOptions`
+attribute.
+
+```
+{{chartist-chart responsiveOptions=resOpts data=model.chartData}}
+```
+
+*/app/controllers/application.js*
+```javascript
+import Ember from 'ember';
+
+export default Ember.ObjectController.extend({
+  chartResOptions: [
+    ['screen and (min-width: 640px)', {
+      showArea: true,
+      lineSmooth: false,
+
+      axisX: {
+        showLabel: false
+      }
+    }]
+  ]
+});
+```
 
 ### Custom CSS
 
