@@ -4,6 +4,9 @@
 var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 var app = new EmberAddon({
+  sassOptions: {
+    'outputFile': 'dummy.css'
+  },
   'ember-cli-chartist': {
     'useCustomCSS': true
   }
