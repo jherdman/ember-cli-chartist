@@ -117,3 +117,30 @@ test('it can be configured with the options attribute', function () {
   equal(opts.axisX.showGrid, false);
   equal(opts.axisY.showLabel, false);
 });
+
+test('it can be configured with the responsiveOptions attribute', function () {
+  expect(1);
+
+  var component = this.subject({
+    data: chartData
+  });
+
+  component.set('responsiveOptions', [
+    ['screen and (min-width: 640px)', {
+      showArea: false,
+      lineSmooth: false,
+      showLabel: false
+    }]
+  ]);
+
+  this.append();
+
+  var chart = component.get('chart');
+  var resOpts = chart.responsiveOptions;
+
+  console.log(chart);
+
+  equal(resOpts[0].showArea, false);
+  equal(resOpts[0].lineSmooth, false);
+  equal(resOpts[0].showLabel, false);
+});
