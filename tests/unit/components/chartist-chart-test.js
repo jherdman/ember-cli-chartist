@@ -127,9 +127,12 @@ test('it can be configured with the responsiveOptions attribute', function () {
 
   component.set('responsiveOptions', [
     ['screen and (min-width: 640px)', {
-      showArea: false,
+      showArea: true,
       lineSmooth: false,
-      showLabel: false
+
+      axisX: {
+        showLabel: false
+      }
     }]
   ]);
 
@@ -138,7 +141,7 @@ test('it can be configured with the responsiveOptions attribute', function () {
   var chart = component.get('chart');
   var resOpts = chart.responsiveOptions;
 
-  equal(resOpts[0][1].showArea, false);
+  equal(resOpts[0][1].showArea, true);
   equal(resOpts[0][1].lineSmooth, false);
-  equal(resOpts[0][1].showLabel, false);
+  equal(resOpts[0][1].axisX.showLabel, false);
 });
