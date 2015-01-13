@@ -1,5 +1,7 @@
 # Chartist.js for Ember-CLI Projects
 
+[![Build Status](https://travis-ci.org/tylergaw/ember-cli-chartist.svg?branch=v0.2.2)](https://travis-ci.org/tylergaw/ember-cli-chartist)
+
 This is an ember-cli wrapper for [Chartist](https://github.com/gionkunz/chartist-js).
 It allows you to render Chartist charts in your templates using components.
 
