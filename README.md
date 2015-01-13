@@ -150,6 +150,63 @@ you can also import the Chartist settings scss:
 
 For more on custom styles see the [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#the-sass-way)
 
+## Extending `chartist-chart`
+
+If you need to get fancier than the options allow, or if you need to create a
+component of your own that uses this as a base, you're in luck. Say you want
+to create a chart that shows Fish eaten over time. You don't want this chart
+tied to a specific controller, route, or model in your app. You can create a
+new component that extends `chartist-chart` like so:
+
+*/app/components/chart-fish-over-time.js*
+```javascript
+import ChartistChart from './chartist-chart';
+
+export default ChartistChart.extend({
+  init: function () {
+    getAsyncDataThatReturnsPromise().then(function (data) {
+      this.set('data', data);
+    });
+
+    this._super();
+  },
+
+  updateChart: function () {
+    this.get('chart').update(this.get('data'));
+  }.observes('data'),
+
+  ratio: 'ct-minor-seventh',
+  options: {
+    showPoint: false,
+    axisY: {
+      offset: 0,
+      showGrid: true,
+    },
+    axisX: {
+      showGrid: false,
+    }
+  },
+
+  responsiveOptions: [
+    ['screen and (min-width: 640px)', {
+      showPoint: true,
+      axisY: {
+        offset: 50,
+        showLabel: true
+      }
+    }]
+  ]
+});
+```
+
+With that, you can display the Fish chart in any template. For example,
+
+*/app/templates/all-about-fish.js*
+```
+{{chart-fish-over-time}}
+```
+
+
 ## Development
 
 If you'd like to contribute to this project, that would be swell. Here are some details on doing that.
