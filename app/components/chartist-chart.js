@@ -3,7 +3,9 @@ import Ember from 'ember';
 
 // This is a custom "undefined", just a safety measure to make sure someone else
 // doesn't override undefined.
-var UNDEF;
+var UNDEF,
+  // This is the structure that chartist is expecting
+  defaultDataStructure = {labels: [], series: []};
 
 export default Ember.Component.extend({
   chart: UNDEF,
@@ -40,9 +42,7 @@ export default Ember.Component.extend({
     return this.get('type').capitalize();
   }.property('type'),
 
-  // This is the structure that chartist is expecting
-  data: {labels: [], series: []},
-
+  data: defaultDataStructure,
   options: UNDEF,
   responsiveOptions: UNDEF,
 
@@ -71,17 +71,13 @@ export default Ember.Component.extend({
     type = this.get('type');
 
     if (typeof data === 'string') {
-      throw new Error('The value of the "data" attribute on chartist-chart should be an object, it\'s a string.');
+      console.info('Chartist-chart: The value of the "data" attribute on should be an object, it\'s a string.');
+      this.set('data', defaultDataStructure);
     }
 
-    // Make sure the type attribute has a quoted value. It's a common mistake
-    // to forget to.
-    if (!type) {
-      throw new Error('If you\'re providing a "type" attribute on chartist-chart, make sure it\'s a string.');
-    } else {
-      if (!Chartist[this.get('chartType')]) {
-        throw new Error('Invalid "type" attribute to chartist-chart. It can be; "bar", "line", or "pie".');
-      }
+    if (!type || !Chartist[this.get('chartType')]) {
+      console.info('Chartist-chart: Invalid or missing "type" attribute, defaulting to "line".');
+      this.set('type', 'line');
     }
   }.on('init')
 });
