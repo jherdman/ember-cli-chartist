@@ -40,7 +40,8 @@ export default Ember.Component.extend({
     return this.get('type').capitalize();
   }.property('type'),
 
-  data: UNDEF,
+  // This is the structure that chartist is expecting
+  data: {labels: [], series: []},
 
   options: UNDEF,
   responsiveOptions: UNDEF,
@@ -69,13 +70,8 @@ export default Ember.Component.extend({
     var data = this.get('data'),
     type = this.get('type');
 
-    // Do some checking on the provided–or not provided–data attribute.
-    if (!data) {
-      throw new Error('The "data" attribute is required on chartist-chart.');
-    } else {
-      if (typeof data === 'string') {
-        throw new Error('The value of the "data" attribute on chartist-chart should be an object, it\'s a string.');
-      }
+    if (typeof data === 'string') {
+      throw new Error('The value of the "data" attribute on chartist-chart should be an object, it\'s a string.');
     }
 
     // Make sure the type attribute has a quoted value. It's a common mistake

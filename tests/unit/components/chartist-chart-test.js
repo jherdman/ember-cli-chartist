@@ -35,6 +35,15 @@ test('it renders', function() {
   equal(component._state, 'inDOM');
 });
 
+test('it should not error when the data property or attribute is not provided', function() {
+  expect(1);
+
+  var component = this.subject();
+
+  this.append();
+  equal(component._state, 'inDOM');
+});
+
 test('it can be a line chart', function() {
   expect(1);
 
