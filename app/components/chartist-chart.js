@@ -6,7 +6,7 @@ import Ember from 'ember';
 var UNDEF;
 
 export default Ember.Component.extend({
-  chart: null,
+  chart: UNDEF,
 
   classNameBindings: ['ratio'],
   classNames: ['ct-chart'],
@@ -40,7 +40,7 @@ export default Ember.Component.extend({
     return this.get('type').capitalize();
   }.property('type'),
 
-  data: null,
+  data: UNDEF,
 
   options: UNDEF,
   responsiveOptions: UNDEF,
