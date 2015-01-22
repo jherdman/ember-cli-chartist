@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-chartist",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Ember Addon for Chartist.js",
   "directories": {
     "doc": "doc",
