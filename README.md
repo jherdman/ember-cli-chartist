@@ -19,7 +19,7 @@ In the template where you want the chart to appear:
 {{chartist-chart data=model.chartData}}
 ```
 
-The `data` attribute is the only required attribute. It's value should be an object. Check the [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#as-simple-as-it-can-get) for expected data structure.
+The `data` attribute is the only required attribute. Its value should be an object. Check the [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#as-simple-as-it-can-get) for expected data structure.
 
 ### Where does the data come from?
 
@@ -94,12 +94,12 @@ See the [Chartist docs](http://gionkunz.github.io/chartist-js/api-documentation.
 
 #### Responsive config
 
-You can also configure your charts for different media queries. All of the same
+You can also configure your charts based on media queries. The same
 configuration options are available, but you provide them via the `responsiveOptions`
-attribute.
+attribute. They can be used in tandem with standard `options`.
 
 ```
-{{chartist-chart responsiveOptions=resOpts data=model.chartData}}
+{{chartist-chart responsiveOptions=chartResOptions data=model.chartData}}
 ```
 
 */app/controllers/application.js*
@@ -134,7 +134,7 @@ var app = new EmberApp({
 });
 ```
 
-If you want to import the Chartist scss into your app's scss, you will need to install
+If you use custom CSS, you'll likely want to import the Chartist Scss into your app's scss, you will need to install
 [ember-cli-sass](https://www.npmjs.com/package/ember-cli-sass). You can then import the Chartist scss with:
 
 In `app.scss`
@@ -152,8 +152,8 @@ For more on custom styles see the [Chartist docs](http://gionkunz.github.io/char
 
 ## Extending `chartist-chart`
 
-If you need to get fancier than the options allow, or if you need to create a
-component of your own that uses this as a base, you're in luck. Say you want
+If you have needs that go beyond the standard component, or if you need to create a
+component of your own that uses `ChartistChart` as a base, you're in luck. Say you want
 to create a chart that shows Fish eaten over time. You don't want this chart
 tied to a specific controller, route, or model in your app. You can create a
 new component that extends `chartist-chart` like so:
@@ -205,6 +205,19 @@ With that, you can display the Fish chart in any template. For example,
 ```
 {{chart-fish-over-time}}
 ```
+
+## Live examples
+
+There is an example app included in this repo in `/tests/dummy/`. It contains examples of most of the functionality described above. To view those
+examples you'll need to clone this repo and start the Ember cli server.
+
+```
+git clone https://github.com/tylergaw/ember-cli-chartist.git
+cd ember-cli-chartist
+ember serve
+```
+
+The example app will be running at [http://localhost:4200](http://localhost:4200)
 
 
 ## Development
