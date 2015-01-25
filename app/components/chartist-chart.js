@@ -59,6 +59,10 @@ export default Ember.Component.extend({
     this.set('chart', chart);
   }.on('didInsertElement'),
 
+  onData: function () {
+    this.get('chart').update(this.get('data'));
+  }.observes('data'),
+
   // Before trying to do anything else, let's check to see if any necessary
   // attributes are missing or if anything else is fishy about attributes
   // provided to the component in the template.
