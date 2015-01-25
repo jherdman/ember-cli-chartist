@@ -45,7 +45,8 @@ export default Ember.Component.extend({
   data: defaultDataStructure,
   options: UNDEF,
   responsiveOptions: UNDEF,
-
+  updateOnData: true,
+  
   // This is where the business happens. This will only run if checkForReqs
   // doesn't find any problems.
   renderChart: function () {
@@ -60,7 +61,9 @@ export default Ember.Component.extend({
   }.on('didInsertElement'),
 
   onData: function () {
-    this.get('chart').update(this.get('data'));
+    if (this.get('updateOnData')) {
+      this.get('chart').update(this.get('data'));
+    }
   }.observes('data'),
 
   // Before trying to do anything else, let's check to see if any necessary
