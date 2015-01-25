@@ -169,7 +169,7 @@ test('it should update the chart when data is changed', function () {
     series: [
       [8, 10, 31, 17, 25, 11]
     ]
-  }
+  };
 
   component.set('type', 'line');
   this.append();
@@ -192,4 +192,36 @@ test('it should update the chart when data is changed', function () {
     equal(component.get('data'), newData);
     equal(createdEventWasCalled, 2);
   }, 1000);
+});
+
+test('it should not automatically update when updateOnData is false', function () {
+  expect(1);
+
+  var component = this.subject({
+    data: chartData
+  });
+
+  var createdEventWasCalled = 0;
+
+  var newData = {
+    labels: ['Week1', 'Week2', 'Week3', 'Week4', 'Week5', 'Week6'],
+    series: [
+      [8, 10, 31, 17, 25, 11]
+    ]
+  };
+
+  component.set('updateOnData', false);
+  this.append();
+
+  component.get('chart').on('created', function () {
+    createdEventWasCalled++;
+  });
+
+  stop();
+
+  Ember.run.later(function() {
+    start();
+    component.set('data', newData);
+    equal(createdEventWasCalled, 1);
+  }, 500);
 });
