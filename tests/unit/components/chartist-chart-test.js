@@ -154,3 +154,74 @@ test('it can be configured with the responsiveOptions attribute', function () {
   equal(resOpts[0][1].lineSmooth, false);
   equal(resOpts[0][1].axisX.showLabel, false);
 });
+
+test('it should update the chart when data is changed', function () {
+  expect(2);
+
+  var component = this.subject({
+    data: chartData
+  });
+
+  var createdEventWasCalled = 0;
+
+  var newData = {
+    labels: ['Week1', 'Week2', 'Week3', 'Week4', 'Week5', 'Week6'],
+    series: [
+      [8, 10, 31, 17, 25, 11]
+    ]
+  };
+
+  component.set('type', 'line');
+  this.append();
+
+  // NOTE: Is seems strange to listen for the created event, but I couldn't
+  // find an 'updated' event being emitted by Chartist.
+  // This should be called when the chart is initially drawn, and then again
+  // when the data updates.
+  component.get('chart').on('created', function () {
+    createdEventWasCalled++;
+  });
+
+  stop();
+
+  Ember.run.later(function() {
+    start();
+
+    component.set('data', newData);
+
+    equal(component.get('data'), newData);
+    equal(createdEventWasCalled, 2);
+  }, 1000);
+});
+
+test('it should not automatically update when updateOnData is false', function () {
+  expect(1);
+
+  var component = this.subject({
+    data: chartData
+  });
+
+  var createdEventWasCalled = 0;
+
+  var newData = {
+    labels: ['Week1', 'Week2', 'Week3', 'Week4', 'Week5', 'Week6'],
+    series: [
+      [8, 10, 31, 17, 25, 11]
+    ]
+  };
+
+  component.set('updateOnData', false);
+  this.append();
+
+  component.get('chart').on('created', function () {
+    createdEventWasCalled++;
+  });
+
+  stop();
+
+  Ember.run.later(function() {
+    start();
+    component.set('data', newData);
+    equal(createdEventWasCalled, 1);
+  }, 500);
+});
