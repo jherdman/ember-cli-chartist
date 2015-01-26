@@ -15,7 +15,7 @@
 }(this, function () {
 
   /* Chartist.js 0.5.0
-   * Copyright © 2014 Gion Kunz
+   * Copyright © 2015 Gion Kunz
    * Free to use under the WTFPL license.
    * http://www.wtfpl.net/
    */
@@ -77,6 +77,18 @@
       });
 
       return target;
+    };
+
+    /**
+     * Replaces all occurrences of subStr in str with newSubStr and returns a new string.
+     *
+     * @param {String} str
+     * @param {String} subStr
+     * @param {String} newSubStr
+     * @returns {String}
+     */
+    Chartist.replaceAll = function(str, subStr, newSubStr) {
+      return str.replace(new RegExp(subStr, 'g'), newSubStr);
     };
 
     /**
@@ -170,6 +182,63 @@
     };
 
     /**
+     * A map with characters to escape for strings to be safely used as attribute values.
+     *
+     * @type {Object}
+     */
+    Chartist.escapingMap = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      '\'': '&#039;'
+    };
+
+    /**
+     * This function serializes arbitrary data to a string. In case of data that can't be easily converted to a string, this function will create a wrapper object and serialize the data using JSON.stringify. The outcoming string will always be escaped using Chartist.escapingMap.
+     * If called with null or undefined the function will return immediately with null or undefined.
+     *
+     * @param {Number|String|Object} data
+     * @returns {String}
+     */
+    Chartist.serialize = function(data) {
+      if(data === null || data === undefined) {
+        return data;
+      } else if(typeof data === 'number') {
+        data = ''+data;
+      } else if(typeof data === 'object') {
+        data = JSON.stringify({data: data});
+      }
+
+      return Object.keys(Chartist.escapingMap).reduce(function(result, key) {
+        return Chartist.replaceAll(result, key, Chartist.escapingMap[key]);
+      }, data);
+    };
+
+    /**
+     * This function de-serializes a string previously serialized with Chartist.serialize. The string will always be unescaped using Chartist.escapingMap before it's returned. Based on the input value the return type can be Number, String or Object. JSON.parse is used with try / catch to see if the unescaped string can be parsed into an Object and this Object will be returned on success.
+     *
+     * @param {String} data
+     * @returns {String|Number|Object}
+     */
+    Chartist.deserialize = function(data) {
+      if(typeof data !== 'string') {
+        return data;
+      }
+
+      data = Object.keys(Chartist.escapingMap).reduce(function(result, key) {
+        return Chartist.replaceAll(result, Chartist.escapingMap[key], key);
+      }, data);
+
+      try {
+        data = JSON.parse(data);
+        data = data.data !== undefined ? data.data : data;
+      } catch(e) {}
+
+      return data;
+    };
+
+    /**
      * Create or reinitialize the SVG element for the chart
      *
      * @memberof Chartist.Core
@@ -185,10 +254,13 @@
       width = width || '100%';
       height = height || '100%';
 
-      svg = container.querySelector('svg');
-      if(svg) {
+      // Check if there is a previous SVG element in the container that contains the Chartist XML namespace and remove it
+      // Since the DOM API does not support namespaces we need to manually search the returned list http://www.w3.org/TR/selectors-api/
+      Array.prototype.slice.call(container.querySelectorAll('svg')).filter(function filterChartistSvgObjects(svg) {
+        return svg.getAttribute(Chartist.xmlNs.qualifiedName);
+      }).forEach(function removePreviousElement(svg) {
         container.removeChild(svg);
-      }
+      });
 
       // Create svg object with width and height or use 100% as default
       svg = new Chartist.Svg('svg').attr({
@@ -212,13 +284,22 @@
      * @return {Array} A plain array that contains the data to be visualized in the chart
      */
     Chartist.getDataArray = function (data) {
-      var array = [];
+      var array = [],
+        value,
+        localData;
 
       for (var i = 0; i < data.series.length; i++) {
         // If the series array contains an object with a data property we will use the property
-        // otherwise the value directly (array or number)
-        array[i] = typeof(data.series[i]) === 'object' && data.series[i].data !== undefined ?
-          data.series[i].data : data.series[i];
+        // otherwise the value directly (array or number).
+        // We create a copy of the original data array with Array.prototype.push.apply
+        localData = typeof(data.series[i]) === 'object' && data.series[i].data !== undefined ? data.series[i].data : data.series[i];
+        if(localData instanceof Array) {
+          array[i] = [];
+          Array.prototype.push.apply(array[i], localData);
+        } else {
+          array[i] = localData;
+        }
+
 
         // Convert values to number
         for (var j = 0; j < array[i].length; j++) {
@@ -1078,10 +1159,25 @@
      * Updates the chart which currently does a full reconstruction of the SVG DOM
      *
      * @param {Object} [data] Optional data you'd like to set for the chart before it will update. If not specified the update method will use the data that is already configured with the chart.
+     * @param {Object} [options] Optional options you'd like to add to the previous options for the chart before it will update. If not specified the update method will use the options that have been already configured with the chart.
      * @memberof Chartist.Base
      */
-    function update(data) {
-      this.data = data || this.data;
+    function update(data, options) {
+      if(data) {
+        this.data = data;
+        // Event for data transformation that allows to manipulate the data before it gets rendered in the charts
+        this.eventEmitter.emit('data', {
+          type: 'update',
+          data: this.data
+        });
+      }
+
+      if(options) {
+        this.options = Chartist.extend({}, this.options, options);
+        this.optionsProvider.removeMediaQueryListeners();
+        this.optionsProvider = Chartist.optionsProvider(this.options, this.responsiveOptions, this.eventEmitter);
+      }
+
       this.createChart(this.optionsProvider.currentOptions);
       return this;
     }
@@ -1169,6 +1265,12 @@
       this.resizeListener = function resizeListener(){
         this.update();
       }.bind(this);
+
+      // Event for data transformation that allows to manipulate the data before it gets rendered in the charts
+      this.eventEmitter.emit('data', {
+        type: 'initial',
+        data: this.data
+      });
 
       if(this.container) {
         // If chartist was already initialized in this container we are detaching all event listeners first
