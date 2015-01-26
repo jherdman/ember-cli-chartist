@@ -8,7 +8,7 @@ function getData () {
     Ember.run.later(function() {
       resolve({
         labels: [
-          'Salmon', 'Yellowtail', 'Dolphin', 'Cow'
+          'Salmon', 'Yellowtail', 'Dolphin', 'Cow', 'Horse', 'Cat'
         ],
         series: [
           ['2', '8', '3', '9']
@@ -30,7 +30,7 @@ export default ChartistChart.extend({
     Ember.run.later(function() {
       var newData = {
         labels: [
-          'Salmon', 'Yellowtail', 'Dolphin', 'Cow'
+          'Salmon', 'Yellowtail', 'Dolphin', 'Cow', 'Horse', 'Cat'
         ],
         series: [
           ['22', '18', '0', '19']
