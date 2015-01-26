@@ -120,6 +120,16 @@ export default Ember.ObjectController.extend({
 });
 ```
 
+#### Other configuration
+
+There are other ways to configure chartist-chart components that are specific to the addon.
+
+**updateOnData**: By default, when the data associated with a chartist-chart is changed, the chart will be updated to reflect the data. That can be turned off by setting updateOnData to false. Note: If you use this option, you will have to manually draw and redraw the chart using Chartist methods.
+
+```
+{{chartist-chart updateOnData=false}}
+```
+
 ### Custom CSS
 
 By default, the compiled `chartist.css` will be included in your app's `vendor.css`. If you want to use custom CSS you can tell the addon to not include the compiled version
@@ -170,10 +180,6 @@ export default ChartistChart.extend({
 
     this._super();
   },
-
-  updateChart: function () {
-    this.get('chart').update(this.get('data'));
-  }.observes('data'),
 
   ratio: 'ct-minor-seventh',
   options: {
