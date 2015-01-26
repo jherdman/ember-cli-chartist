@@ -8,13 +8,13 @@ function getData () {
     Ember.run.later(function() {
       resolve({
         labels: [
-          'Salmon', 'Yellowtail', 'Dolphin', 'Cow', 'Horse', 'Cat'
+          'Salmon', 'Yellowtail', 'Dolphin', 'Cow', 'Pig', 'Dog'
         ],
         series: [
           ['2', '8', '3', '9']
         ]
       });
-    }, 500);
+    }, 1000);
   });
 }
 
