@@ -4,7 +4,7 @@ export default Ember.Route.extend({
   model: function () {
     return {
       chartData: {
-        labels: ['Week1', 'Week2', 'Week3', 'Week4', 'Week5', 'Week6'],
+        labels: ['Week1', 'Week2', 'Week3', 'Week4', 'Week5', 'Week6', 'Week7'],
         series: [
           [5, 4, 3, 7, 5, 10],
           [3, 2, 9, 5, 4, 6],
