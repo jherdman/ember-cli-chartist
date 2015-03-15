@@ -53,9 +53,8 @@ export default Ember.Component.extend({
   renderChart: function () {
     var element = this.get('customElement');
     if (element) {
+      element = '#' + this.get('elementId') + ' ' + element;
       Ember.$(element).addClass(this.get('customClassNames').join(' ') + ' ' + this.get('ratio'));
-      // this.set('classNameBindings', []);
-      // this.set('classNames', []);
     } else {
       element = this.get('element');
     }
