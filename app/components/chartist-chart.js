@@ -12,6 +12,7 @@ export default Ember.Component.extend({
 
   classNameBindings: ['ratio'],
   classNames: ['ct-chart'],
+  customClassNames: [],
 
   // The ratio of the chart as it scales up/down in size.
   //
@@ -46,12 +47,21 @@ export default Ember.Component.extend({
   options: UNDEF,
   responsiveOptions: UNDEF,
   updateOnData: true,
-  
+
   // This is where the business happens. This will only run if checkForReqs
   // doesn't find any problems.
   renderChart: function () {
+    var element = this.get('customElement');
+    if (element) {
+      Ember.$(element).addClass(this.get('customClassNames').join(' ') + ' ' + this.get('ratio'));
+      // this.set('classNameBindings', []);
+      // this.set('classNames', []);
+    } else {
+      element = this.get('element');
+    }
+
     var chart = new Chartist[this.get('chartType')](
-      this.get('element'),
+      element,
       this.get('data'),
       this.get('options'),
       this.get('responsiveOptions')
@@ -85,6 +95,12 @@ export default Ember.Component.extend({
     if (!type || !Chartist[this.get('chartType')]) {
       console.info('Chartist-chart: Invalid or missing "type" attribute, defaulting to "line".');
       this.set('type', 'line');
+    }
+
+    if (this.get('customElement')) {
+      this.set('classNameBindings', []);
+      this.set('customClassNames', this.get('classNames'));
+      this.set('classNames', []);
     }
   }.on('init')
 });
