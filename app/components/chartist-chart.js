@@ -44,7 +44,6 @@ export default Ember.Component.extend({
     return this.get('type').capitalize();
   }.property('type'),
 
-  data: this.get('defaultDataStructure'),
   options: UNDEF,
   responsiveOptions: UNDEF,
   updateOnData: true,
