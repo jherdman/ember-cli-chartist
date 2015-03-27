@@ -5,7 +5,7 @@ sudo: false
 
 cache:
   directories:
-    - node_modules
+  - "/home/travis/.local"
 
 before_install:
   - "npm config set spin false"
