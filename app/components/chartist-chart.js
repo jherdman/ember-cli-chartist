@@ -46,7 +46,7 @@ export default Ember.Component.extend({
   options: UNDEF,
   responsiveOptions: UNDEF,
   updateOnData: true,
-  
+
   // This is where the business happens. This will only run if checkForReqs
   // doesn't find any problems.
   renderChart: function () {
@@ -62,7 +62,10 @@ export default Ember.Component.extend({
 
   onData: function () {
     if (this.get('updateOnData')) {
-      this.get('chart').update(this.get('data'));
+      this.get('chart').update(
+        this.get('data'),
+        this.get('options')
+      );
     }
   }.observes('data'),
 
