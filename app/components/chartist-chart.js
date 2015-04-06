@@ -3,12 +3,14 @@ import Ember from 'ember';
 
 // This is a custom "undefined", just a safety measure to make sure someone else
 // doesn't override undefined.
-var UNDEF,
-  // This is the structure that chartist is expecting
-  defaultDataStructure = {labels: [], series: []};
+var UNDEF;
 
 export default Ember.Component.extend({
   chart: UNDEF,
+
+  // This is the structure that chartist is expecting, it can be overidden in
+  // your components which extend this one.
+  defaultDataStructure: { labels: [], series: [] },
 
   classNameBindings: ['ratio'],
   classNames: ['ct-chart'],
@@ -42,7 +44,7 @@ export default Ember.Component.extend({
     return this.get('type').capitalize();
   }.property('type'),
 
-  data: defaultDataStructure,
+  data: null,
   options: UNDEF,
   responsiveOptions: UNDEF,
   updateOnData: true,
@@ -50,9 +52,10 @@ export default Ember.Component.extend({
   // This is where the business happens. This will only run if checkForReqs
   // doesn't find any problems.
   renderChart: function () {
+    var data = this.get('data') || this.get('defaultDataStructure');
     var chart = new Chartist[this.get('chartType')](
       this.get('element'),
-      this.get('data'),
+      data,
       this.get('options'),
       this.get('responsiveOptions')
     );
