@@ -65,7 +65,11 @@ export default Ember.Component.extend({
 
   onData: function () {
     if (this.get('updateOnData')) {
-      this.get('chart').update(this.get('data'));
+      var opts = this.get('options') || {};
+      this.get('chart').update(
+        this.get('data'),
+        opts
+      );
     }
   }.observes('data'),
 
