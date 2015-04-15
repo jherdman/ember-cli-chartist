@@ -12,7 +12,7 @@ export default Ember.Component.extend({
 
   classNameBindings: ['ratio'],
   classNames: ['ct-chart'],
-  customClassNames: [],
+  customElementClassNames: ['ct-chart'],
 
   // The ratio of the chart as it scales up/down in size.
   //
@@ -54,7 +54,7 @@ export default Ember.Component.extend({
     var element = this.get('customElement');
     if (element) {
       element = '#' + this.get('elementId') + ' ' + element;
-      Ember.$(element).addClass(this.get('customClassNames').join(' ') + ' ' + this.get('ratio'));
+      Ember.$(element).addClass(this.get('customElementClassNames').join(' ') + ' ' + this.get('ratio'));
     } else {
       element = this.get('element');
     }
@@ -96,10 +96,5 @@ export default Ember.Component.extend({
       this.set('type', 'line');
     }
 
-    if (this.get('customElement')) {
-      this.set('classNameBindings', []);
-      this.set('customClassNames', this.get('classNames'));
-      this.set('classNames', []);
-    }
   }.on('init')
 });
