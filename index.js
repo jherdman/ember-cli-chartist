@@ -15,7 +15,7 @@ module.exports = {
 
     var options = app.options['ember-cli-chartist'] || {},
       modulePath = path.relative(app.project.root, __dirname),
-      chartistPath = 'vendor/chartist';
+      chartistPath = app.bowerDirectory + '/chartist/dist';
 
     if (options.useCustomCSS) {
       app.options.sassOptions = app.options.sassOptions || {};
@@ -27,9 +27,9 @@ module.exports = {
       app.options.sassOptions.includePaths.push(path_join(modulePath,
         chartistPath, 'scss/settings'));
     } else {
-      app.import('vendor/chartist/chartist.css');
+      app.import(app.bowerDirectory + '/chartist/dist/chartist.min.css');
     }
 
-    app.import('vendor/chartist/chartist.js');
+    app.import(app.bowerDirectory + '/chartist/dist/chartist.js');
   }
 };
