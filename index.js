@@ -10,7 +10,6 @@ module.exports = {
     this.app = app;
 
     var options = app.options['ember-cli-chartist'] || {},
-      // modulePath = path.relative(app.project.root, __dirname),
       chartistPath = path.join(app.bowerDirectory, 'chartist', 'dist');
 
     if (options.useCustomCSS) {
