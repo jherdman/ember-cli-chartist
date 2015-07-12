@@ -1,11 +1,7 @@
 /* jshint node: true */
 'use strict';
 
-var path = require('path'),
-  path_join = function () {
-  // fix path with windows back slash with path_join
-  return path.join.apply(this, arguments).replace(/\\/g, '/');
-};
+var path = require('path');
 
 module.exports = {
   name: 'ember-cli-chartist',
@@ -14,22 +10,22 @@ module.exports = {
     this.app = app;
 
     var options = app.options['ember-cli-chartist'] || {},
-      modulePath = path.relative(app.project.root, __dirname),
-      chartistPath = 'vendor/chartist';
+      // modulePath = path.relative(app.project.root, __dirname),
+      chartistPath = path.join(app.bowerDirectory, 'chartist', 'dist');
 
     if (options.useCustomCSS) {
       app.options.sassOptions = app.options.sassOptions || {};
       app.options.sassOptions.includePaths = app.options.sassOptions.includePaths || [];
 
-      app.options.sassOptions.includePaths.push(path_join(modulePath,
+      app.options.sassOptions.includePaths.push(path.join(
         chartistPath, 'scss'));
 
-      app.options.sassOptions.includePaths.push(path_join(modulePath,
-        chartistPath, 'scss/settings'));
+      app.options.sassOptions.includePaths.push(path.join(
+        chartistPath, 'scss', 'settings'));
     } else {
-      app.import('vendor/chartist/chartist.css');
+      app.import(path.join(chartistPath, 'chartist.min.css'));
     }
 
-    app.import('vendor/chartist/chartist.js');
+    app.import(path.join(chartistPath, 'chartist.js'));
   }
 };
