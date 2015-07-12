@@ -10,7 +10,7 @@ export default Ember.Component.extend({
 
   // This is the structure that chartist is expecting, it can be overidden in
   // your components which extend this one.
-  defaultDataStructure: { labels: [], series: [] },
+  defaultDataStructure: { labels: [], series: [[0]] },
 
   classNameBindings: ['ratio'],
   classNames: ['ct-chart'],
@@ -59,7 +59,6 @@ export default Ember.Component.extend({
       this.get('options'),
       this.get('responsiveOptions')
     );
-
     this.set('chart', chart);
   }.on('didInsertElement'),
 
