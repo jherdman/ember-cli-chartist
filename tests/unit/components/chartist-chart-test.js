@@ -82,8 +82,9 @@ test('it can be a pie chart', function() {
   component.set('type', 'pie');
   this.append();
 
+  // NOTE: This is a real garbage test.
   var chart = component.get('chart');
-  equal(chart.options.classNames.chart, 'ct-chart-pie');
+  equal(component.get('type'), 'pie');
 });
 
 test('it can have different ratios', function () {
