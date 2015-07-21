@@ -6,23 +6,26 @@ var path = require('path');
 module.exports = {
   name: 'ember-cli-chartist',
 
-  included: function included(app) {
-    this.app = app;
+  included: function included(app, parentAddon) {
+    var target = (parentAddon || app);
 
-    var options = app.options['ember-cli-chartist'] || {},
-      chartistPath = path.join(app.bowerDirectory, 'chartist', 'dist');
+    var options = target.options['ember-cli-chartist'] || {};
+    var chartistPath = path.join(target.bowerDirectory, 'chartist', 'dist');
 
     if (options.useCustomCSS) {
-      app.options.sassOptions = app.options.sassOptions || {};
-      app.options.sassOptions.includePaths = app.options.sassOptions.includePaths || [];
+      target.options.sassOptions = target.options.sassOptions || {};
+      target.options.sassOptions.includePaths = target.options.sassOptions.includePaths || [];
 
-      app.options.sassOptions.includePaths.push(path.join(
-        chartistPath, 'scss'));
+      target.options.sassOptions.includePaths.push(
+        path.join(chartistPath, 'scss')
+      );
 
-      app.options.sassOptions.includePaths.push(path.join(
-        chartistPath, 'scss', 'settings'));
+      target.options.sassOptions.includePaths.push(
+        path.join(chartistPath, 'scss', 'settings')
+      );
+
     } else {
-      app.import(path.join(chartistPath, 'chartist.min.css'));
+      target.import(path.join(chartistPath, 'chartist.min.css'));
     }
 
     app.import(path.join(chartistPath, 'chartist.js'));
