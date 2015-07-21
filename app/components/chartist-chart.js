@@ -1,5 +1,5 @@
-import Ember from 'ember';
 /* global Chartist */
+import Ember from 'ember';
 
 // This is a custom "undefined", just a safety measure to make sure someone else
 // doesn't override undefined.
@@ -40,9 +40,9 @@ export default Ember.Component.extend({
   ratio: 'ct-square',
 
   type: 'line',
-  chartType: function () {
-    return this.get('type').capitalize();
-  }.property('type'),
+  chartType: Ember.computed('type', function() {
+    return Ember.String.capitalize(this.get('type'));
+  }),
 
   data: null,
   options: UNDEF,
@@ -51,7 +51,7 @@ export default Ember.Component.extend({
 
   // This is where the business happens. This will only run if checkForReqs
   // doesn't find any problems.
-  renderChart: function () {
+  didInsertElement: function() {
     var data = this.get('data') || this.get('defaultDataStructure');
     var chart = new Chartist[this.get('chartType')](
       this.get('element'),
@@ -61,9 +61,11 @@ export default Ember.Component.extend({
     );
 
     this.set('chart', chart);
-  }.on('didInsertElement'),
 
-  onData: function () {
+    this._super();
+  },
+
+  onData: Ember.observer('data', function() {
     if (this.get('updateOnData')) {
       var opts = this.get('options') || {};
       this.get('chart').update(
@@ -71,7 +73,7 @@ export default Ember.Component.extend({
         opts
       );
     }
-  }.observes('data'),
+  }),
 
   // Before trying to do anything else, let's check to see if any necessary
   // attributes are missing or if anything else is fishy about attributes
@@ -80,7 +82,7 @@ export default Ember.Component.extend({
   // We're doing this to help ease people into this project. Instead of just
   // getting some "uncaught exception" we're hoping these error messages will
   // point them in the right direction.
-  checkForReqs: function () {
+  init: function() {
     var data = this.get('data'),
     type = this.get('type');
 
@@ -93,5 +95,7 @@ export default Ember.Component.extend({
       console.info('Chartist-chart: Invalid or missing "type" attribute, defaulting to "line".');
       this.set('type', 'line');
     }
-  }.on('init')
+
+    this._super();
+  }
 });
