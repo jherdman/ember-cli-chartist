@@ -1,10 +1,6 @@
 /* global Chartist */
 import Ember from 'ember';
 
-// This is a custom "undefined", just a safety measure to make sure someone else
-// doesn't override undefined.
-const UNDEF;
-
 const {
   computed,
   observer,
@@ -15,7 +11,7 @@ const {
 } = Ember;
 
 export default Component.extend({
-  chart: UNDEF,
+  chart: null,
 
   // This is the structure that chartist is expecting, it can be overidden in
   // your components which extend this one.
@@ -57,9 +53,12 @@ export default Component.extend({
   }),
 
   data: null,
-  options: UNDEF,
-  responsiveOptions: UNDEF,
+  options: null,
+  responsiveOptions: null,
   updateOnData: true,
+
+  // Don't use this! It's a testing hook
+  _createdEventHook() {},
 
   // Before trying to do anything else, let's check to see if any necessary
   // attributes are missing or if anything else is fishy about attributes
@@ -99,6 +98,8 @@ export default Component.extend({
       this.get('options'),
       this.get('responsiveOptions')
     );
+
+    chart.on('created', this._createdEventHook);
 
     this.set('chart', chart);
 
