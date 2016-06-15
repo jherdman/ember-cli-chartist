@@ -7,6 +7,6 @@
     "ember-qunit-notifications": "0.1.0"
   },
   "devDependencies": {
-    "chartist": "~0.7.3"
+    "chartist": "~0.9.4"
   }
 }
