@@ -1,16 +1,24 @@
 /* global Chartist */
 import Ember from 'ember';
 
-// This is a custom "undefined", just a safety measure to make sure someone else
-// doesn't override undefined.
-var UNDEF;
+const {
+  computed,
+  observer,
+  Component,
+  String: {
+    capitalize
+  }
+} = Ember;
 
-export default Ember.Component.extend({
-  chart: UNDEF,
+export default Component.extend({
+  chart: null,
 
   // This is the structure that chartist is expecting, it can be overidden in
   // your components which extend this one.
-  defaultDataStructure: { labels: [], series: [] },
+  defaultDataStructure: {
+    labels: [],
+    series: []
+  },
 
   classNameBindings: ['ratio'],
   classNames: ['ct-chart'],
@@ -40,40 +48,17 @@ export default Ember.Component.extend({
   ratio: 'ct-square',
 
   type: 'line',
-  chartType: Ember.computed('type', function() {
-    return Ember.String.capitalize(this.get('type'));
+  chartType: computed('type', function() {
+    return capitalize(this.get('type'));
   }),
 
   data: null,
-  options: UNDEF,
-  responsiveOptions: UNDEF,
+  options: null,
+  responsiveOptions: null,
   updateOnData: true,
 
-  // This is where the business happens. This will only run if checkForReqs
-  // doesn't find any problems.
-  didInsertElement: function() {
-    var data = this.get('data') || this.get('defaultDataStructure');
-    var chart = new Chartist[this.get('chartType')](
-      this.get('element'),
-      data,
-      this.get('options'),
-      this.get('responsiveOptions')
-    );
-
-    this.set('chart', chart);
-
-    this._super();
-  },
-
-  onData: Ember.observer('data', function() {
-    if (this.get('updateOnData')) {
-      var opts = this.get('options') || {};
-      this.get('chart').update(
-        this.get('data'),
-        opts
-      );
-    }
-  }),
+  // Don't use this! It's a testing hook
+  _createdEventHook() {},
 
   // Before trying to do anything else, let's check to see if any necessary
   // attributes are missing or if anything else is fishy about attributes
@@ -82,12 +67,15 @@ export default Ember.Component.extend({
   // We're doing this to help ease people into this project. Instead of just
   // getting some "uncaught exception" we're hoping these error messages will
   // point them in the right direction.
-  init: function() {
-    var data = this.get('data'),
-    type = this.get('type');
+  init() {
+    let data = this.get('data');
+    let type = this.get('type');
 
     if (typeof data === 'string') {
       console.info('Chartist-chart: The value of the "data" attribute on should be an object, it\'s a string.');
+
+      let defaultDataStructure = this.get('defaultDataStructure');
+
       this.set('data', defaultDataStructure);
     }
 
@@ -96,6 +84,36 @@ export default Ember.Component.extend({
       this.set('type', 'line');
     }
 
-    this._super();
-  }
+    this._super(...arguments);
+  },
+
+  // This is where the business happens. This will only run if checkForReqs
+  // doesn't find any problems.
+  didInsertElement() {
+    let data = this.get('data') || this.get('defaultDataStructure');
+
+    let chart = new Chartist[this.get('chartType')](
+      this.get('element'),
+      data,
+      this.get('options'),
+      this.get('responsiveOptions')
+    );
+
+    chart.on('created', this._createdEventHook);
+
+    this.set('chart', chart);
+
+    this._super(...arguments);
+  },
+
+  onData: observer('data', function() {
+    if (this.get('updateOnData')) {
+      let opts = this.get('options') || {};
+
+      this.get('chart').update(
+        this.get('data'),
+        opts
+      );
+    }
+  }),
 });
