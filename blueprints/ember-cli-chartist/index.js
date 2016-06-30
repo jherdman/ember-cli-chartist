@@ -9,6 +9,6 @@ module.exports = {
   },
 
   beforeInstall: function(options) {
-    return this.addBowerPackageToProject('chartist', '~0.9.1');
+    return this.addBowerPackageToProject('chartist', '~0.9.8');
   }
 };
