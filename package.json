@@ -13,15 +13,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tylergaw/ember-cli-chartist.git"
+    "url": "https://github.com/jherdman/ember-cli-chartist.git"
   },
   "bugs": {
-    "url": "https://github.com/tylergaw/ember-cli-chartist/issues"
+    "url": "https://github.com/jherdman/ember-cli-chartist/issues"
   },
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "Tyler Gaw <me@tylergaw.com>",
+  "author": "James Herdman <james.herdman@gmail.com>",
+  "contributors": [
+    "Tyler Gaw <me@tylergaw.com>"
+  ],
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
