@@ -1,9 +1,9 @@
 /* global Chartist */
 import Ember from 'ember';
+import onceObserver from 'ember-runloop-utils/once-observer';
 
 const {
   computed,
-  observer,
   Component,
   String: {
     capitalize
@@ -106,7 +106,7 @@ export default Component.extend({
     this._super(...arguments);
   },
 
-  onData: observer('data', function() {
+  onData: onceObserver('data.[]', function() {
     if (this.get('updateOnData')) {
       let opts = this.get('options') || {};
 
