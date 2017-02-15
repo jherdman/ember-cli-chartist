@@ -1,8 +1,6 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-
-const later = Ember.run.later;
+import wait from 'ember-test-helpers/wait';
 
 moduleForComponent('chartist-chart', 'Integration | Component | chartist chart', {
   integration: true
@@ -33,58 +31,48 @@ test('it should not error when the data property or attribute is not provided', 
 });
 
 test('it can be a line chart', function(assert) {
-  const done = assert.async();
-
   assert.expect(1);
 
   this.set('data', chartData);
 
   this.render(hbs`{{chartist-chart data=data type="line"}}`);
 
-  later(this, function() {
+  return wait().then(() => {
     let chart = this.$('.ct-chart .ct-chart-line');
 
     assert.ok(chart.length);
-    done();
   });
 });
 
 test('it can be a bar chart', function(assert) {
-  const done = assert.async();
-
   assert.expect(1);
 
   this.set('data', chartData);
 
   this.render(hbs`{{chartist-chart data=data type="bar"}}`);
 
-  later(this, function() {
+  return wait().then(() => {
     let chart = this.$('.ct-chart .ct-chart-bar');
 
     assert.ok(chart.length);
-    done();
   });
 });
 
 test('it can be a pie chart', function(assert) {
-  const done = assert.async();
-
   assert.expect(1);
 
   this.set('data', pieChartData);
 
   this.render(hbs`{{chartist-chart data=data type="pie"}}`);
 
-  later(this, function() {
+  return wait().then(() => {
     let chart = this.$('.ct-chart .ct-chart-pie');
 
     assert.ok(chart.length);
-    done();
   });
 });
 
 test('it can have different ratios', function (assert) {
-  const done = assert.async();
   const ratio = 'ct-minor-second';
 
   assert.expect(1);
@@ -92,21 +80,19 @@ test('it can have different ratios', function (assert) {
   this.set('data', chartData);
   this.set('ratio', ratio);
 
-  this.render(hbs`{{chartist-chart data=data ratio=ratio}}`);
+  this.render(hbs`{{chartist-chart
+    data=data
+    ratio=ratio
+  }}`);
 
-  later(this, function() {
+  return wait().then(() => {
     let chart = this.$('.ct-chart');
 
     assert.ok(chart.hasClass(ratio));
-    done();
   });
 });
 
 test('it should update the chart when data is changed', function (assert) {
-  const done = assert.async;
-
-  assert.expect(1);
-
   let createdEventWasCalled = 0;
 
   let newData = {
@@ -123,22 +109,20 @@ test('it should update the chart when data is changed', function (assert) {
   this.set('data', chartData);
   this.set('hook', bumpCounter);
 
-  this.render(hbs`{{chartist-chart data=data type="line" _createdEventHook=hook}}`);
+  this.render(hbs`{{chartist-chart
+    data=data
+    type='line'
+    _createdEventHook=hook
+  }}`);
 
-  later(this, function() {
+  return wait().then(() => {
     this.set('data', newData);
 
     assert.equal(createdEventWasCalled, 2);
-
-    done();
   });
 });
 
 test('it should not automatically update when updateOnData is false', function (assert) {
-  const done = assert.async;
-
-  assert.expect(1);
-
   let createdEventWasCalled = 0;
 
   let newData = {
@@ -155,13 +139,19 @@ test('it should not automatically update when updateOnData is false', function (
   this.set('data', chartData);
   this.set('hook', bumpCounter);
 
-  this.render(hbs`{{chartist-chart data=data type="line" _createdEventHook=hook updateOnData=false}}`);
+  this.render(hbs`{{chartist-chart
+    data=data
+    type='line'
+    _createdEventHook=hook
+    updateOnData=false
+  }}`);
 
-  later(this, function() {
+  return wait().then(() => {
     this.set('data', newData);
 
-    assert.equal(createdEventWasCalled, 1);
-
-    done();
+    assert.equal(
+      createdEventWasCalled,
+      1
+    );
   });
 });
