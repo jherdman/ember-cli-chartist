@@ -1,7 +1,11 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
-  model: function () {
+const {
+  Route,
+} = Ember;
+
+export default Route.extend({
+  model() {
     return {
       chartData: {
         labels: ['Week1', 'Week2', 'Week3', 'Week4', 'Week5', 'Week6'],
