@@ -9,14 +9,28 @@ module.exports = {
   name: 'ember-cli-chartist',
 
   treeForVendor(vendorTree) {
-    var chartistTree = new Funnel(path.dirname(require.resolve('chartist')), {
+    var chartistPath = path.dirname(require.resolve('chartist'));
+
+    var chartistTree = new Funnel(chartistPath, {
       files: [
         'chartist.js',
         'chartist.css',
       ],
     });
 
-    return new MergeTrees([vendorTree, chartistTree]);
+    var chartistTreeSCSS = new Funnel(chartistPath, {
+      srcDir: 'scss',
+
+      include: [
+        '*.scss',
+      ],
+    });
+
+    return new MergeTrees([
+      vendorTree,
+      chartistTree,
+      chartistTreeSCSS,
+    ]);
   },
 
   included(app) {
@@ -24,6 +38,7 @@ module.exports = {
 
     app.import('vendor/chartist.js');
     app.import('vendor/chartist.css');
+    app.import('vendor/chartist.scss');
   },
 
   //included: function included(app, parentAddon) {
