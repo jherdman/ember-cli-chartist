@@ -2,32 +2,52 @@
 'use strict';
 
 var path = require('path');
+var Funnel = require('broccoli-funnel');
+var MergeTrees = require('broccoli-merge-trees');
 
 module.exports = {
   name: 'ember-cli-chartist',
 
-  included: function included(app, parentAddon) {
-    var target = (parentAddon || app);
+  treeForVendor(vendorTree) {
+    var chartistTree = new Funnel(path.dirname(require.resolve('chartist')), {
+      files: [
+        'chartist.js',
+        'chartist.css',
+      ],
+    });
 
-    var options = target.options['ember-cli-chartist'] || {};
-    var chartistPath = path.join(target.bowerDirectory, 'chartist', 'dist');
+    return new MergeTrees([vendorTree, chartistTree]);
+  },
 
-    if (options.useCustomCSS) {
-      target.options.sassOptions = target.options.sassOptions || {};
-      target.options.sassOptions.includePaths = target.options.sassOptions.includePaths || [];
+  included(app) {
+    this._super.included.apply(this, arguments);
 
-      target.options.sassOptions.includePaths.push(
-        path.join(chartistPath, 'scss')
-      );
+    app.import('vendor/chartist.js');
+    app.import('vendor/chartist.css');
+  },
 
-      target.options.sassOptions.includePaths.push(
-        path.join(chartistPath, 'scss', 'settings')
-      );
+  //included: function included(app, parentAddon) {
+  //  var target = (parentAddon || app);
 
-    } else {
-      target.import(path.join(chartistPath, 'chartist.min.css'));
-    }
+  //  var options = target.options['ember-cli-chartist'] || {};
+  //  var chartistPath = path.join(target.bowerDirectory, 'chartist', 'dist');
 
-    app.import(path.join(chartistPath, 'chartist.js'));
-  }
+  //  if (options.useCustomCSS) {
+  //    target.options.sassOptions = target.options.sassOptions || {};
+  //    target.options.sassOptions.includePaths = target.options.sassOptions.includePaths || [];
+
+  //    target.options.sassOptions.includePaths.push(
+  //      path.join(chartistPath, 'scss')
+  //    );
+
+  //    target.options.sassOptions.includePaths.push(
+  //      path.join(chartistPath, 'scss', 'settings')
+  //    );
+
+  //  } else {
+  //    target.import(path.join(chartistPath, 'chartist.min.css'));
+  //  }
+
+  //  app.import(path.join(chartistPath, 'chartist.js'));
+  //}
 };
