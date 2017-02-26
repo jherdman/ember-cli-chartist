@@ -1,6 +1,10 @@
 import Ember from 'ember';
 
-export default Ember.ObjectController.extend({
+const {
+  Controller,
+} = Ember;
+
+export default Ember.Controller.extend({
   chartResOptions: [
     ['screen and (min-width: 640px)', {
       showArea: true,
