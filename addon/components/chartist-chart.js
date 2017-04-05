@@ -3,6 +3,7 @@ import Ember from 'ember';
 
 const {
   computed,
+  deprecate,
   observer,
   Component,
   String: {
@@ -72,7 +73,14 @@ export default Component.extend({
     let type = this.get('type');
 
     if (typeof data === 'string') {
-      console.info('Chartist-chart: The value of the "data" attribute on should be an object, it\'s a string.');
+      deprecate(
+        'Chartist-chart: The value of the "data" attribute on should be an object, it\'s a string. Setting default data structure instead.',
+        false,
+        {
+          id: 'chartist.data-type',
+          until: '2.0.0',
+        }
+      );
 
       let defaultDataStructure = this.get('defaultDataStructure');
 
@@ -80,7 +88,15 @@ export default Component.extend({
     }
 
     if (!type || !Chartist[this.get('chartType')]) {
-      console.info('Chartist-chart: Invalid or missing "type" attribute, defaulting to "line".');
+      deprecate(
+        'Chartist-chart: Invalid or missing "type" attribute, defaulting to "line".',
+        false,
+        {
+          id: 'chartist.chart-type',
+          until: '2.0.0',
+        }
+      );
+
       this.set('type', 'line');
     }
 
