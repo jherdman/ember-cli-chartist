@@ -6,7 +6,7 @@
 This is an ember-cli wrapper for [Chartist](https://github.com/gionkunz/chartist-js).
 It allows you to render Chartist charts in your templates using components.
 
-[Chartist version in use](https://github.com/jherdman/ember-cli-chartist/blob/master/blueprints/ember-cli-chartist/index.js#L6).
+You can see which version of Chartist is used [by examining `blueprints/ember-cli-chartist/index.js`](https://github.com/jherdman/ember-cli-chartist/blob/master/blueprints/ember-cli-chartist/index.js).
 
 ## Setup
 
