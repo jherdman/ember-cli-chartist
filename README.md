@@ -16,6 +16,9 @@ In an existing ember-cli project. Install with:
 npm install ember-cli-chartist --save-dev
 ```
 
+```
+bower install chartist --save
+```
 In the template where you want the chart to appear:
 
 ```
