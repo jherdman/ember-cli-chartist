@@ -29,5 +29,11 @@ module.exports = {
     }
 
     app.import(path.join(chartistPath, 'chartist.js'));
+     if(options.plugins){
+      options.plugins.forEach((plugin) => {
+        let pluginPath = path.join(target.bowerDirectory, plugin, plugin + '.js')
+        app.import(pluginPath)
+      })
+    }
   }
 };

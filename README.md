@@ -163,6 +163,18 @@ you can also import the Chartist settings scss:
 
 For more on custom styles see the [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#the-sass-way)
 
+## Plugins
+
+Install the plugin with Bower.
+
+In ember-cli-build.js, use the following example to add the plugin name: 
+
+```
+		'ember-cli-chartist': {
+			plugins: ['chartist-plugin-legend']
+		}
+```
+
 ## Extending `chartist-chart`
 
 If you have needs that go beyond the standard component, or if you need to create a
