@@ -30,6 +30,7 @@ module.exports = {
 
     return new Funnel(chartistPath, {
       srcDir: 'scss',
+      destDir: 'chartist',
     });
   },
 
