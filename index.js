@@ -1,18 +1,28 @@
 /* jshint node: true */
 'use strict';
 
-var path = require('path');
-var Funnel = require('broccoli-funnel');
-var mergeTrees = require('broccoli-merge-trees');
+const path = require('path');
+const Funnel = require('broccoli-funnel');
+const mergeTrees = require('broccoli-merge-trees');
 
 module.exports = {
 
   name: 'ember-cli-chartist',
 
-  treeForVendor(vendorTree) {
-    var chartistPath = path.dirname(require.resolve('chartist'));
+  included(app) {
+    this._super.included.apply(this, arguments);
 
-    var chartistTree = new Funnel(chartistPath, {
+    this.chartistPath = path.dirname(require.resolve('chartist'));
+    this.appOptions = app.options['ember-cli-chartist'] || {};
+
+    app.import('vendor/chartist.js');
+    if (!this.appOptions.useCustomCSS) {
+      app.import('vendor/chartist.css');
+    }
+  },
+
+  treeForVendor(vendorTree) {
+    const chartistTree = new Funnel(this.chartistPath, {
       files: [
         'chartist.js',
         'chartist.css',
@@ -26,17 +36,14 @@ module.exports = {
   },
 
   treeForStyles() {
-    var chartistPath = path.dirname(require.resolve('chartist'));
-
-    return new Funnel(chartistPath, {
-      srcDir: 'scss',
-      destDir: 'chartist',
-    });
+    if (this.appOptions.useCustomCSS) {
+      return new Funnel(this.chartistPath, {
+        srcDir: 'scss',
+        destDir: 'chartist',
+      });
+    }
   },
 
-  included(app) {
-    this._super.included.apply(this, arguments);
-    app.import('vendor/chartist.js');
-  },
+
 
 };
