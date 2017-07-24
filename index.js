@@ -30,10 +30,12 @@ module.exports = {
       ],
     });
 
-    return mergeTrees([
-      vendorTree,
-      chartistTree,
-    ]);
+    return vendorTree ?
+      mergeTrees([
+        vendorTree,
+        chartistTree,
+      ]) :
+      chartistTree;
   },
 
   treeForStyles() {
