@@ -30,15 +30,10 @@ module.exports = {
       ],
     });
 
-    return vendorTree ?
-      mergeTrees([
-        vendorTree,
-        chartistTree,
-      ]) :
-      chartistTree;
+    return vendorTree ? mergeTrees([vendorTree, chartistTree]) : chartistTree;
   },
 
-  treeForStyles() {
+  treeForStyles(stylesTree) {
     if (this.appOptions.useCustomCSS) {
       this.ui.writeLine(chalk.yellow(
         "[ember-cli-chartist] DEPRECATION: In the next major release (v2.0.0) of " +
@@ -46,10 +41,13 @@ module.exports = {
         " be changing. They will become 'chartist/chartist.scss' and " +
         "'chartist/settings/chartist-settings.scss', respectively.\n"
       ));
-      return new Funnel(this.chartistPath, {
+
+      const chartistTree = new Funnel(this.chartistPath, {
         srcDir: 'scss',
         // destDir: 'chartist',
       });
+
+      return stylesTree ? mergeTrees([stylesTree, chartistTree]) : chartistTree;
     }
   },
 
