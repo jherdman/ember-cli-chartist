@@ -1,33 +1,56 @@
 /* jshint node: true */
 'use strict';
 
-var path = require('path');
+const path = require('path');
+const chalk = require('chalk');
+const Funnel = require('broccoli-funnel');
+const mergeTrees = require('broccoli-merge-trees');
 
 module.exports = {
+
   name: 'ember-cli-chartist',
 
-  included: function included(app, parentAddon) {
-    var target = (parentAddon || app);
+  included(app) {
+    this._super.included.apply(this, arguments);
 
-    var options = target.options['ember-cli-chartist'] || {};
-    var chartistPath = path.join(target.bowerDirectory, 'chartist', 'dist');
+    this.chartistPath = path.dirname(require.resolve('chartist'));
+    this.appOptions = app.options['ember-cli-chartist'] || {};
 
-    if (options.useCustomCSS) {
-      target.options.sassOptions = target.options.sassOptions || {};
-      target.options.sassOptions.includePaths = target.options.sassOptions.includePaths || [];
-
-      target.options.sassOptions.includePaths.push(
-        path.join(chartistPath, 'scss')
-      );
-
-      target.options.sassOptions.includePaths.push(
-        path.join(chartistPath, 'scss', 'settings')
-      );
-
-    } else {
-      target.import(path.join(chartistPath, 'chartist.min.css'));
+    app.import('vendor/chartist.js');
+    if (!this.appOptions.useCustomCSS) {
+      app.import('vendor/chartist.css');
     }
+  },
 
-    app.import(path.join(chartistPath, 'chartist.js'));
-  }
+  treeForVendor(vendorTree) {
+    const chartistTree = new Funnel(this.chartistPath, {
+      files: [
+        'chartist.js',
+        'chartist.css',
+      ],
+    });
+
+    return vendorTree ? mergeTrees([vendorTree, chartistTree]) : chartistTree;
+  },
+
+  treeForStyles(stylesTree) {
+    if (this.appOptions.useCustomCSS) {
+      this.ui.writeLine(chalk.yellow(
+        "[ember-cli-chartist] DEPRECATION: In the next major release (v2.0.0) of " +
+        "ember-cli-chartist, the import paths for chartist.scss and chartist-settings.scss will" +
+        " be changing. They will become 'chartist/chartist.scss' and " +
+        "'chartist/settings/chartist-settings.scss', respectively.\n"
+      ));
+
+      const chartistTree = new Funnel(this.chartistPath, {
+        srcDir: 'scss',
+        // destDir: 'chartist',
+      });
+
+      return stylesTree ? mergeTrees([stylesTree, chartistTree]) : chartistTree;
+    }
+  },
+
+
+
 };
