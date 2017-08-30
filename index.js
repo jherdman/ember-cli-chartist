@@ -7,7 +7,6 @@ const Funnel = require('broccoli-funnel');
 const mergeTrees = require('broccoli-merge-trees');
 
 module.exports = {
-
   name: 'ember-cli-chartist',
 
   included(app) {
@@ -50,7 +49,4 @@ module.exports = {
       return stylesTree ? mergeTrees([stylesTree, chartistTree]) : chartistTree;
     }
   },
-
-
-
 };
