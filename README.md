@@ -237,12 +237,16 @@ If you'd like to contribute to this project, that would be swell. Here are some 
 
 * `git clone` this repository
 * `npm install`
-* `bower install`
 
 ### Running
 
 * `ember server`
 * Visit your app at http://localhost:4200.
+
+### Linting
+
+* `npm run lint:js`
+* `npm run lint:js -- --fix`
 
 ### Running Tests
 

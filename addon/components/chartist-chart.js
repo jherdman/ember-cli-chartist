@@ -1,27 +1,17 @@
 /* global Chartist */
-import Ember from 'ember';
+import Component from '@ember/component';
 
-const {
-  computed,
-  deprecate,
-  observer,
-  Component,
-  String: {
-    capitalize
-  }
-} = Ember;
+import { deprecate } from '@ember/application/deprecations';
+
+import { observer, computed } from '@ember/object';
+
+import { capitalize } from '@ember/string';
 
 export default Component.extend({
   chart: null,
 
-  // This is the structure that chartist is expecting, it can be overidden in
-  // your components which extend this one.
-  defaultDataStructure: {
-    labels: [],
-    series: []
-  },
-
   classNameBindings: ['ratio'],
+
   classNames: ['ct-chart'],
 
   // The ratio of the chart as it scales up/down in size.
@@ -49,6 +39,7 @@ export default Component.extend({
   ratio: 'ct-square',
 
   type: 'line',
+
   chartType: computed('type', function() {
     return capitalize(this.get('type'));
   }),
@@ -71,6 +62,13 @@ export default Component.extend({
   init() {
     let data = this.get('data');
     let type = this.get('type');
+
+    // This is the structure that chartist is expecting, it can be overidden in
+    // your components which extend this one.
+    this.set('defaultDataStructure', {
+      labels: [],
+      series: [],
+    });
 
     if (typeof data === 'string') {
       deprecate(
@@ -108,7 +106,7 @@ export default Component.extend({
   didInsertElement() {
     let data = this.get('data') || this.get('defaultDataStructure');
 
-    let chart = new Chartist[this.get('chartType')](
+    let chart = new (Chartist[this.get('chartType')])(
       this.get('element'),
       data,
       this.get('options'),

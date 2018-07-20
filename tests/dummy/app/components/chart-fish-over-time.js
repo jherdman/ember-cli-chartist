@@ -1,11 +1,16 @@
-import Ember from 'ember';
 import ChartistChart from './chartist-chart';
+
+import { later } from '@ember/runloop';
+
+import { Promise } from 'rsvp';
+
+import { computed } from '@ember/object';
 
 // This is faking a fairly common use case of using data for a chart in an
 // async way.
 function getData () {
-  return new Ember.RSVP.Promise(function(resolve) {
-    Ember.run.later(function() {
+  return new Promise(function(resolve) {
+    later(function() {
       resolve({
         labels: [
           'Salmon', 'Yellowtail', 'Dolphin', 'Cow'
@@ -19,16 +24,16 @@ function getData () {
 }
 
 export default ChartistChart.extend({
-  init: function () {
-    getData().then(function (data) {
+  init() {
+    getData().then((data) => {
       this.set('data', data);
-    }.bind(this));
+    });
 
     this._super();
 
     // An example showing that the chart will update when the data changes.
-    Ember.run.later(function() {
-      var newData = {
+    later(() => {
+      let newData = {
         labels: [
           'Salmon', 'Yellowtail', 'Dolphin', 'Cow'
         ],
@@ -38,29 +43,34 @@ export default ChartistChart.extend({
       };
 
       this.set('data', newData);
-    }.bind(this), 4000);
+    }, 4000);
   },
 
   ratio: 'ct-minor-seventh',
-  options: {
-    showPoint: false,
-    axisY: {
-      offset: 0,
-      showLabel: false,
-      showGrid: true,
-    },
-    axisX: {
-      showGrid: false,
-    }
-  },
 
-  responsiveOptions: [
-    ['screen and (min-width: 640px)', {
-      showPoint: true,
+  options: computed(function() {
+    return {
+      showPoint: false,
       axisY: {
-        offset: 50,
-        showLabel: true
+        offset: 0,
+        showLabel: false,
+        showGrid: true,
+      },
+      axisX: {
+        showGrid: false,
       }
-    }]
-  ]
+    };
+  }),
+
+  responsiveOptions: computed(function() {
+    return [
+      ['screen and (min-width: 640px)', {
+        showPoint: true,
+        axisY: {
+          offset: 50,
+          showLabel: true
+        }
+      }]
+    ];
+  }),
 });

@@ -1,18 +1,18 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 
-const {
-  Controller,
-} = Ember;
+import { computed } from '@ember/object';
 
 export default Controller.extend({
-  chartResOptions: [
-    ['screen and (min-width: 640px)', {
-      showArea: true,
-      lineSmooth: false,
+  chartResOptions: computed(function() {
+    return [
+      ['screen and (min-width: 640px)', {
+        showArea: true,
+        lineSmooth: false,
 
-      axisX: {
-        showLabel: false
-      }
-    }]
-  ]
+        axisX: {
+          showLabel: false
+        }
+      }]
+    ];
+  }),
 });
