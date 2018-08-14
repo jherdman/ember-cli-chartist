@@ -1,7 +1,7 @@
 # Chartist.js for Ember-CLI Projects
 
 [![Build Status](https://travis-ci.org/jherdman/ember-cli-chartist.svg)](https://travis-ci.org/jherdman/ember-cli-chartist)
-[![Ember Observer Score](https://emberobserver.com/badges/ember-cli-chartist.svg)](https://emberobserver.com/addons/ember-cli-chartist)
+[![Ember Observer Score](https://emberobserver.com/badges/ember-cli-chartist.svg)](https://emberobserver.com/addons/ember-cli-chartist) 
 
 This is an ember-cli wrapper for [Chartist](https://github.com/gionkunz/chartist-js).
 It allows you to render Chartist charts in your templates using components.
@@ -137,10 +137,10 @@ There are other ways to configure chartist-chart components that are specific to
 
 By default, the compiled `chartist.css` will be included in your app's `vendor.css`. If you want to use custom CSS you can tell the addon to not include the compiled version
 
-In your app's `Brocfile.js`:
+In your app's `ember-cli-build.js`:
 
 ```javascript
-var app = new EmberApp({
+let app = new EmberApp({
   'ember-cli-chartist': {
     'useCustomCSS': true
   }
