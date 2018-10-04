@@ -25,9 +25,7 @@ module('Integration | Component | chartist chart', function(hooks) {
   test('it should not error when the data property or attribute is not provided', async function(assert) {
     await render(hbs`{{chartist-chart}}`);
 
-    let component = this.$('.ct-chart');
-
-    assert.ok(component.length);
+    assert.dom('.ct-chart').exists();
   });
 
   test('it can be a line chart', async function(assert) {
@@ -37,11 +35,9 @@ module('Integration | Component | chartist chart', function(hooks) {
 
     await render(hbs`{{chartist-chart data=data type="line"}}`);
 
-    return settled().then(() => {
-      let chart = this.$('.ct-chart .ct-chart-line');
+    await settled();
 
-      assert.ok(chart.length);
-    });
+    assert.dom('.ct-chart .ct-chart-line').exists();
   });
 
   test('it can be a bar chart', async function(assert) {
@@ -51,11 +47,9 @@ module('Integration | Component | chartist chart', function(hooks) {
 
     await render(hbs`{{chartist-chart data=data type="bar"}}`);
 
-    return settled().then(() => {
-      let chart = this.$('.ct-chart .ct-chart-bar');
+    await settled();
 
-      assert.ok(chart.length);
-    });
+    assert.dom('.ct-chart .ct-chart-bar').exists();
   });
 
   test('it can be a pie chart', async function(assert) {
@@ -65,11 +59,9 @@ module('Integration | Component | chartist chart', function(hooks) {
 
     await render(hbs`{{chartist-chart data=data type="pie"}}`);
 
-    return settled().then(() => {
-      let chart = this.$('.ct-chart .ct-chart-pie');
+    await settled();
 
-      assert.ok(chart.length);
-    });
+    assert.dom('.ct-chart .ct-chart-pie').exists();
   });
 
   test('it can have different ratios', async function(assert) {
@@ -85,11 +77,9 @@ module('Integration | Component | chartist chart', function(hooks) {
       ratio=ratio
     }}`);
 
-    return settled().then(() => {
-      let chart = this.$('.ct-chart');
+    await settled();
 
-      assert.ok(chart.hasClass(ratio));
-    });
+    assert.dom('.ct-chart').hasClass(ratio);
   });
 
   test('it should update the chart when data is changed', async function(assert) {
@@ -115,11 +105,11 @@ module('Integration | Component | chartist chart', function(hooks) {
       _createdEventHook=hook
     }}`);
 
-    return settled().then(() => {
-      this.set('data', newData);
+    await settled();
 
-      assert.equal(createdEventWasCalled, 2);
-    });
+    this.set('data', newData);
+
+    assert.equal(createdEventWasCalled, 2);
   });
 
   test('it should not automatically update when updateOnData is false', async function(assert) {
@@ -146,13 +136,13 @@ module('Integration | Component | chartist chart', function(hooks) {
       updateOnData=false
     }}`);
 
-    return settled().then(() => {
-      this.set('data', newData);
+    await settled();
 
-      assert.equal(
-        createdEventWasCalled,
-        1
-      );
-    });
+    this.set('data', newData);
+
+    assert.equal(
+      createdEventWasCalled,
+      1
+    );
   });
 });

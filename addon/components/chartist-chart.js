@@ -41,7 +41,9 @@ export default Component.extend({
   type: 'line',
 
   chartType: computed('type', function() {
-    return capitalize(this.get('type'));
+    let type = this.get('type');
+
+    return capitalize(type);
   }),
 
   data: null,
@@ -60,8 +62,10 @@ export default Component.extend({
   // getting some "uncaught exception" we're hoping these error messages will
   // point them in the right direction.
   init() {
-    let data = this.get('data');
-    let type = this.get('type');
+    let {
+      data,
+      type,
+    } = this.getProperties('data', 'type');
 
     // This is the structure that chartist is expecting, it can be overidden in
     // your components which extend this one.
