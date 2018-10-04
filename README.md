@@ -13,16 +13,19 @@ You can see which version of Chartist is used [by examining `blueprints/ember-cl
 In an existing ember-cli project. Install with:
 
 ```
-npm install ember-cli-chartist --save-dev
+ember install ember-cli-chartist
 ```
 
 In the template where you want the chart to appear:
 
 ```
-{{chartist-chart data=model.chartData}}
+<ChartistChart @type="line" @data={{model.chartData />
 ```
 
-The `data` attribute is the only required attribute. Its value should be an object. Check the [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#as-simple-as-it-can-get) for expected data structure.
+* `data` is a required attribute. Its value should be an object. Check the
+  [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#as-simple-as-it-can-get)
+  for expected data structure.
+* `type` is a required attribute. It can be any of the recognized chat types.
 
 ### Where does the data come from?
 
@@ -30,10 +33,10 @@ The data can be specified in an Ember route or controller. In the example above 
 
 */app/routes/application.js*
 ```javascript
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
-  model: function () {
+export default Route.extend({
+  model() {
     return {
       chartData: {
         labels: ['Day1', 'Day2', 'Day3'],
@@ -54,7 +57,7 @@ There are three types of charts; line, bar, and pie. The default is line. You ca
 
 */app/templates/application.hbs*
 ```
-{{chartist-chart type="bar" data=model.chartData}}
+<ChartistChart @type="bar" @data={{model.chartData}} />
 ```
 
 ### Responsive scaling
@@ -63,25 +66,29 @@ Chartist charts scale up and down in size. They do so at specified ratios. You c
 
 */app/templates/application.hbs*
 ```
-{{chartist-chart ratio="ct-golden-section" data=model.chartData}}
+<ChartistChart @ratio="ct-golden-section" @data={{model.chartData}} />
 ```
 
-See [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#creating-a-chart-using-aspect-ratios) for the full list of ratios and info on how to create your own.
+See [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#creating-a-chart-using-aspect-ratios)
+for the full list of ratios and info on how to create your own.
 
 ### Chart configuration
 
-Chartist charts have a whole bunch of cool configuration options. You can pass those to the `chartist-chart` components with the `options` attribute. You'll need to create the options object in a similar way as you do for the `data` attribute object.
+Chartist charts have a whole bunch of cool configuration options. You can pass
+those to the `chartist-chart` components with the `options` attribute. You'll
+need to create the options object in a similar way as you do for the `data`
+attribute object.
 
 */app/templates/application.hbs*
 ```
-{{chartist-chart options=chartOptions data=model.chartData}}
+<ChartistChart @options={{chartOptions}} @data={{model.chartData}} />
 ```
 
 */app/controllers/application.js*
 ```javascript
-import Ember from 'ember';
+import Controller from '@ember/controller';
 
-export default Ember.ObjectController.extend({
+export default Controller.extend({
   chartOptions: {
     showArea: true,
     lineSmooth: false,
@@ -93,7 +100,8 @@ export default Ember.ObjectController.extend({
 });
 ```
 
-See the [Chartist docs](http://gionkunz.github.io/chartist-js/api-documentation.html) for all available config options. There's bunch of good-uns!
+See the [Chartist docs](http://gionkunz.github.io/chartist-js/api-documentation.html)
+for all available config options. There's bunch of good-uns!
 
 #### Responsive config
 
@@ -102,14 +110,14 @@ configuration options are available, but you provide them via the `responsiveOpt
 attribute. They can be used in tandem with standard `options`.
 
 ```
-{{chartist-chart responsiveOptions=chartResOptions data=model.chartData}}
+<ChartistChart @responsiveOptions={{chartResOptions}} @data={{model.chartData}} />
 ```
 
 */app/controllers/application.js*
 ```javascript
-import Ember from 'ember';
+import Controller from '@ember/controller';
 
-export default Ember.ObjectController.extend({
+export default Controller.extend({
   chartResOptions: [
     ['screen and (min-width: 640px)', {
       showArea: true,
@@ -125,17 +133,21 @@ export default Ember.ObjectController.extend({
 
 #### Other configuration
 
-There are other ways to configure chartist-chart components that are specific to the addon.
+There are other ways to configure chartist-chart components that are specific to
+the addon.
 
-**updateOnData**: By default, when the data associated with a chartist-chart is changed, the chart will be updated to reflect the data. That can be turned off by setting updateOnData to false. Note: If you use this option, you will have to manually draw and redraw the chart using Chartist methods.
+`updateOnData`: By default, when the data associated with a chartist-chart is
+changed, the chart will be updated to reflect the data. That can be turned off
+by setting updateOnData to false. Note: If you use this option, you will have
+to manually draw and redraw the chart using Chartist methods.
 
 ```
-{{chartist-chart updateOnData=false}}
+<ChartistChart @updateOnData={{false}} />
 ```
 
 ### Custom CSS
 
-By default, the compiled `chartist.css` will be included in your app's `vendor.css`. If you want to use custom CSS you can tell the addon to not include the compiled version
+If you want to use custom CSS you can tell the addon to not include the compiled version.
 
 In your app's `ember-cli-build.js`:
 
@@ -147,18 +159,19 @@ let app = new EmberApp({
 });
 ```
 
-If you use custom CSS, you'll likely want to import the Chartist Scss into your app's scss, you will need to install
-[ember-cli-sass](https://www.npmjs.com/package/ember-cli-sass). You can then import the Chartist scss with:
+If you use custom CSS, you'll likely want to import the Chartist Scss into your
+app's scss, you will need to install [ember-cli-sass](https://www.npmjs.com/package/ember-cli-sass).
+You can then import the Chartist scss with: 
 
 In `app.scss`
 ```scss
-@import "chartist";
+@import "chartist/chartist.scss";
 ```
 
 you can also import the Chartist settings scss:
 
 ```scss
-@import "chartist-settings";
+@import "chartist/chartist-settings.scss";
 ```
 
 For more on custom styles see the [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#the-sass-way)
@@ -176,7 +189,7 @@ new component that extends `chartist-chart` like so:
 import ChartistChart from './chartist-chart';
 
 export default ChartistChart.extend({
-  init: function () {
+  init() {
     getAsyncDataThatReturnsPromise().then(function (data) {
       this.set('data', data);
     });
@@ -185,6 +198,7 @@ export default ChartistChart.extend({
   },
 
   ratio: 'ct-minor-seventh',
+
   options: {
     showPoint: false,
     axisY: {
@@ -212,7 +226,7 @@ With that, you can display the Fish chart in any template. For example,
 
 */app/templates/all-about-fish.js*
 ```
-{{chart-fish-over-time}}
+<ChartFishOverTime />
 ```
 
 ## Live examples
@@ -247,6 +261,7 @@ If you'd like to contribute to this project, that would be swell. Here are some 
 
 * `npm run lint:js`
 * `npm run lint:js -- --fix`
+* `npm run lint:hbs`
 
 ### Running Tests
 

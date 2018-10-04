@@ -1,15 +1,13 @@
 /* global Chartist */
 import Component from '@ember/component';
 
-import { deprecate } from '@ember/application/deprecations';
+import { assert } from '@ember/debug';
 
 import { observer, computed } from '@ember/object';
 
 import { capitalize } from '@ember/string';
 
 export default Component.extend({
-  chart: null,
-
   classNameBindings: ['ratio'],
 
   classNames: ['ct-chart'],
@@ -38,21 +36,17 @@ export default Component.extend({
   // ct-double-octave  1:4
   ratio: 'ct-square',
 
-  type: 'line',
-
-  chartType: computed('type', function() {
-    let type = this.get('type');
-
-    return capitalize(type);
-  }),
+  chart: null,
 
   data: null,
-  options: null,
-  responsiveOptions: null,
-  updateOnData: true,
 
-  // Don't use this! It's a testing hook
-  _createdEventHook() {},
+  options: null,
+
+  responsiveOptions: null,
+
+  type: null,
+
+  updateOnData: true,
 
   // Before trying to do anything else, let's check to see if any necessary
   // attributes are missing or if anything else is fishy about attributes
@@ -62,76 +56,72 @@ export default Component.extend({
   // getting some "uncaught exception" we're hoping these error messages will
   // point them in the right direction.
   init() {
-    let {
-      data,
-      type,
-    } = this.getProperties('data', 'type');
+    let data = this.get('data');
 
-    // This is the structure that chartist is expecting, it can be overidden in
-    // your components which extend this one.
-    this.set('defaultDataStructure', {
-      labels: [],
-      series: [],
-    });
-
-    if (typeof data === 'string') {
-      deprecate(
-        'Chartist-chart: The value of the "data" attribute on should be an object, it\'s a string. Setting default data structure instead.',
-        false,
-        {
-          id: 'chartist.data-type',
-          until: '2.0.0',
-        }
-      );
-
-      let defaultDataStructure = this.get('defaultDataStructure');
-
-      this.set('data', defaultDataStructure);
-    }
-
-    if (!type || !Chartist[this.get('chartType')]) {
-      deprecate(
-        'Chartist-chart: Invalid or missing "type" attribute, defaulting to "line".',
-        false,
-        {
-          id: 'chartist.chart-type',
-          until: '2.0.0',
-        }
-      );
-
-      this.set('type', 'line');
-    }
+    assert(
+      'The value of the "data" attribute must be an object',
+      typeof data === 'object' &&
+      data !== null
+    );
 
     this._super(...arguments);
   },
+
+  chartType: computed('type', function() {
+    let type = this.get('type');
+
+    assert(
+      'Invalid or missing "type" attribute',
+      typeof type !== 'undefined' && type !== null
+    );
+
+    return capitalize(type);
+  }),
 
   // This is where the business happens. This will only run if checkForReqs
   // doesn't find any problems.
   didInsertElement() {
-    let data = this.get('data') || this.get('defaultDataStructure');
-
-    let chart = new (Chartist[this.get('chartType')])(
-      this.get('element'),
+    let {
+      chartType,
       data,
-      this.get('options'),
-      this.get('responsiveOptions')
+      element,
+      options,
+      responsiveOptions,
+    } = this.getProperties(
+      'chartType',
+      'data',
+      'element',
+      'options',
+      'responsiveOptions'
     );
 
-    chart.on('created', this._createdEventHook);
+    let chart = new (Chartist[chartType])(
+      element,
+      data,
+      options,
+      responsiveOptions
+    );
 
     this.set('chart', chart);
-
-    this._super(...arguments);
   },
 
   onData: observer('data', function() {
-    if (this.get('updateOnData')) {
-      let opts = this.get('options') || {};
+    let {
+      chart,
+      data,
+      options,
+      updateOnData,
+    } = this.getProperties(
+      'chart',
+      'data',
+      'options',
+      'updateOnData'
+    );
 
-      this.get('chart').update(
-        this.get('data'),
-        opts
-      );
+    if (updateOnData) {
+      let opts = options || {};
+
+      chart.update(data, opts);
     }
   }),
 });

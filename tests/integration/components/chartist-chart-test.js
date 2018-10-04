@@ -2,31 +2,38 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import ChartistChart from 'ember-cli-chartist/components/chartist-chart';
+
+ChartistChart.reopen({
+  _createdEventHook() {},
+
+  didInsertElement() {
+    this._super(...arguments);
+
+    let chart = this.get('chart');
+
+    chart.on('created', this._createdEventHook);
+  },
+});
+
+const chartData = {
+  labels: ['Week1', 'Week2', 'Week3', 'Week4', 'Week5', 'Week6'],
+  series: [
+    [5, 4, 3, 7, 5, 10],
+    [3, 2, 9, 5, 4, 6],
+    [2, 1, -3, -4, -2, 0]
+  ]
+};
+
+const pieChartData = {
+  labels: ['Pizza', 'Fish', 'Puppies'],
+  series: [
+    [40, 25, 25]
+  ]
+};
 
 module('Integration | Component | chartist chart', function(hooks) {
   setupRenderingTest(hooks);
-
-  const chartData = {
-    labels: ['Week1', 'Week2', 'Week3', 'Week4', 'Week5', 'Week6'],
-    series: [
-      [5, 4, 3, 7, 5, 10],
-      [3, 2, 9, 5, 4, 6],
-      [2, 1, -3, -4, -2, 0]
-    ]
-  };
-
-  const pieChartData = {
-    labels: ['Pizza', 'Fish', 'Puppies'],
-    series: [
-      [40, 25, 25]
-    ]
-  };
-
-  test('it should not error when the data property or attribute is not provided', async function(assert) {
-    await render(hbs`{{chartist-chart}}`);
-
-    assert.dom('.ct-chart').exists();
-  });
 
   test('it can be a line chart', async function(assert) {
     assert.expect(1);
@@ -73,6 +80,7 @@ module('Integration | Component | chartist chart', function(hooks) {
     this.set('ratio', ratio);
 
     await render(hbs`{{chartist-chart
+      type="line"
       data=data
       ratio=ratio
     }}`);
