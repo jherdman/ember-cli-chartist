@@ -1,7 +1,7 @@
 /* global Chartist */
 import Component from '@ember/component';
 
-import { deprecate } from '@ember/application/deprecations';
+import { assert } from '@ember/debug';
 
 import { observer, computed } from '@ember/object';
 
@@ -74,33 +74,9 @@ export default Component.extend({
       series: [],
     });
 
-    if (typeof data === 'string') {
-      deprecate(
-        'Chartist-chart: The value of the "data" attribute on should be an object, it\'s a string. Setting default data structure instead.',
-        false,
-        {
-          id: 'chartist.data-type',
-          until: '2.0.0',
-        }
-      );
+    assert('The value of the "data" attribute must be an object. Setting default data structure instead.', typeof data === 'object');
 
-      let defaultDataStructure = this.get('defaultDataStructure');
-
-      this.set('data', defaultDataStructure);
-    }
-
-    if (!type || !Chartist[this.get('chartType')]) {
-      deprecate(
-        'Chartist-chart: Invalid or missing "type" attribute, defaulting to "line".',
-        false,
-        {
-          id: 'chartist.chart-type',
-          until: '2.0.0',
-        }
-      );
-
-      this.set('type', 'line');
-    }
+    assert('Invalid or missing "type" attribute', type || Chartist[this.get('chartType')]);
 
     this._super(...arguments);
   },
