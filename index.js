@@ -14,6 +14,7 @@ module.exports = {
     this.appOptions = app.options['ember-cli-chartist'] || {};
 
     app.import('vendor/chartist.js');
+
     if (!this.appOptions.useCustomCSS) {
       app.import('vendor/chartist.css');
     }
@@ -32,16 +33,9 @@ module.exports = {
 
   treeForStyles(stylesTree) {
     if (this.appOptions.useCustomCSS) {
-      this.ui.writeDeprecateLine(
-        "[ember-cli-chartist]: In the next major release (v2.0.0) of " +
-        "ember-cli-chartist, the import paths for chartist.scss and chartist-settings.scss will" +
-        " be changing. They will become 'chartist/chartist.scss' and " +
-        "'chartist/settings/chartist-settings.scss', respectively.\n"
-      );
-
       const chartistTree = new Funnel(this.chartistPath, {
         srcDir: 'scss',
-        // destDir: 'chartist',
+        destDir: 'chartist',
       });
 
       return stylesTree ? mergeTrees([stylesTree, chartistTree]) : chartistTree;
