@@ -19,7 +19,7 @@ ember install ember-cli-chartist
 In the template where you want the chart to appear:
 
 ```
-<ChartistChart @type="line" @data={{model.chartData />
+<ChartistChart @type="line" @data={{model.chartData}} />
 ```
 
 * `data` is a required attribute. Its value should be an object. Check the
