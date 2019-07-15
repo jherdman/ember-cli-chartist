@@ -105,6 +105,7 @@ export default Component.extend({
     this.set('chart', chart);
   },
 
+  /* eslint-disable ember/no-observers */
   onData: observer('data', function() {
     let {
       chart,
@@ -124,4 +125,5 @@ export default Component.extend({
       chart.update(data, opts);
     }
   }),
+  /* eslint-enable ember/no-observers */
 });
