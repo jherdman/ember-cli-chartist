@@ -31,6 +31,7 @@ In the template where you want the chart to appear:
 
 The data can be specified in an Ember route or controller. In the example above it's coming from the model which is defined in the route.
 
+<<<<<<< HEAD
 */app/routes/application.js*
 ```javascript
 import Route from '@ember/routing/route';

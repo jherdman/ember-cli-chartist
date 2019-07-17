@@ -8,9 +8,9 @@ import { observer, computed } from '@ember/object';
 import { capitalize } from '@ember/string';
 
 export default Component.extend({
-  classNameBindings: ['ratio'],
+  classNameBindings: Object.freeze(['ratio']),
 
-  classNames: ['ct-chart'],
+  classNames: Object.freeze(['ct-chart']),
 
   // The ratio of the chart as it scales up/down in size.
   //
@@ -56,7 +56,7 @@ export default Component.extend({
   // getting some "uncaught exception" we're hoping these error messages will
   // point them in the right direction.
   init() {
-    let data = this.get('data');
+    let { data } = this;
 
     assert(
       'The value of the "data" attribute must be an object',
@@ -68,7 +68,7 @@ export default Component.extend({
   },
 
   chartType: computed('type', function() {
-    let type = this.get('type');
+    let { type } = this;
 
     assert(
       'Invalid or missing "type" attribute',
@@ -81,19 +81,15 @@ export default Component.extend({
   // This is where the business happens. This will only run if checkForReqs
   // doesn't find any problems.
   didInsertElement() {
+    this._super(...arguments);
+
     let {
       chartType,
       data,
       element,
       options,
       responsiveOptions,
-    } = this.getProperties(
-      'chartType',
-      'data',
-      'element',
-      'options',
-      'responsiveOptions'
-    );
+    } = this;
 
     let chart = new (Chartist[chartType])(
       element,
@@ -105,18 +101,14 @@ export default Component.extend({
     this.set('chart', chart);
   },
 
+  /* eslint-disable ember/no-observers */
   onData: observer('data', function() {
     let {
       chart,
       data,
       options,
       updateOnData,
-    } = this.getProperties(
-      'chart',
-      'data',
-      'options',
-      'updateOnData'
-    );
+    } = this;
 
     if (updateOnData) {
       let opts = options || {};
@@ -124,4 +116,5 @@ export default Component.extend({
       chart.update(data, opts);
     }
   }),
+  /* eslint-enable ember/no-observers */
 });
