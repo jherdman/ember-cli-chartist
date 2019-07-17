@@ -250,7 +250,7 @@ If you'd like to contribute to this project, that would be swell. Here are some 
 ### Installation
 
 * `git clone` this repository
-* `npm install`
+* `yarn install`
 
 ### Running
 
@@ -259,9 +259,9 @@ If you'd like to contribute to this project, that would be swell. Here are some 
 
 ### Linting
 
-* `npm run lint:js`
-* `npm run lint:js -- --fix`
-* `npm run lint:hbs`
+* `yarn lint:js`
+* `yarn lint:js -- --fix`
+* `yarn lint:hbs`
 
 ### Running Tests
 
