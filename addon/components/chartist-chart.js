@@ -3,7 +3,7 @@ import Component from '@ember/component';
 
 import { assert } from '@ember/debug';
 
-import { observer, computed } from '@ember/object';
+import { computed } from '@ember/object';
 
 import { capitalize } from '@ember/string';
 
@@ -55,27 +55,19 @@ export default Component.extend({
   // We're doing this to help ease people into this project. Instead of just
   // getting some "uncaught exception" we're hoping these error messages will
   // point them in the right direction.
-  init() {
-    let { data } = this;
-
-    assert(
-      'The value of the "data" attribute must be an object',
-      typeof data === 'object' &&
-      data !== null
-    );
-
+  didReceiveAttrs() {
     this._super(...arguments);
-  },
 
-  chartType: computed('type', function() {
     let { type } = this;
 
     assert(
       'Invalid or missing "type" attribute',
       typeof type !== 'undefined' && type !== null
     );
+  },
 
-    return capitalize(type);
+  chartType: computed('type', function() {
+    return capitalize(this.type);
   }),
 
   // This is where the business happens. This will only run if checkForReqs
@@ -98,11 +90,12 @@ export default Component.extend({
       responsiveOptions
     );
 
-    this.set('chart', chart);
+    this.chart = chart;
   },
 
-  /* eslint-disable ember/no-observers */
-  onData: observer('data', function() {
+  didRender() {
+    this._super(...arguments);
+
     let {
       chart,
       data,
@@ -110,11 +103,14 @@ export default Component.extend({
       updateOnData,
     } = this;
 
+    if (typeof data === 'undefined') {
+      return;
+    }
+
     if (updateOnData) {
       let opts = options || {};
 
       chart.update(data, opts);
     }
-  }),
-  /* eslint-enable ember/no-observers */
+  },
 });

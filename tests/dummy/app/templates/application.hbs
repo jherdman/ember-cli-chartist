@@ -1,11 +1,20 @@
+<ChartistChart
+  @type="bar"
+  @data={{this.model.chartData}}
+  @responsiveOptions={{this.chartResOptions}}
+  data-test-selector="chart"
+  data-test-id="bar"
+/>
+
 <div class="container">
-  {{chartist-chart
-    type="bar"
-    data=model.chartData
-    responsiveOptions=chartResOptions
-  }}
-
-  {{chart-fish-over-time}}
-
-  {{pie-i-like}}
+  <ChartFishOverTime
+    @data={{this.data}}
+    data-test-selector="chart"
+    data-test-id="fish"
+  />
 </div>
+
+<PieILike
+  data-test-selector="chart"
+  data-test-id="pie"
+/>
