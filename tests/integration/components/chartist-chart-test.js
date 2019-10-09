@@ -10,7 +10,7 @@ ChartistChart.reopen({
   didInsertElement() {
     this._super(...arguments);
 
-    let chart = this.get('chart');
+    let chart = this.chart;
 
     chart.on('created', this._createdEventHook);
   },
@@ -40,7 +40,7 @@ module('Integration | Component | chartist chart', function(hooks) {
 
     this.set('data', chartData);
 
-    await render(hbs`{{chartist-chart data=data type="line"}}`);
+    await render(hbs`<ChartistChart @data={{this.data}} @type="line" />`);
 
     await settled();
 
@@ -52,7 +52,7 @@ module('Integration | Component | chartist chart', function(hooks) {
 
     this.set('data', chartData);
 
-    await render(hbs`{{chartist-chart data=data type="bar"}}`);
+    await render(hbs`<ChartistChart @data={{this.data}} @type="bar" />`);
 
     await settled();
 
@@ -64,7 +64,7 @@ module('Integration | Component | chartist chart', function(hooks) {
 
     this.set('data', pieChartData);
 
-    await render(hbs`{{chartist-chart data=data type="pie"}}`);
+    await render(hbs`<ChartistChart @data={{this.data}} @type="pie" />`);
 
     await settled();
 
@@ -76,14 +76,16 @@ module('Integration | Component | chartist chart', function(hooks) {
 
     assert.expect(1);
 
-    this.set('data', chartData);
-    this.set('ratio', ratio);
+    this.setProperties({
+      data: chartData,
+      ratio,
+    });
 
-    await render(hbs`{{chartist-chart
-      type="line"
-      data=data
-      ratio=ratio
-    }}`);
+    await render(hbs`<ChartistChart
+      @type="line"
+      @data={{this.data}}
+      @ratio={{this.ratio}}
+    />`);
 
     await settled();
 
@@ -104,14 +106,16 @@ module('Integration | Component | chartist chart', function(hooks) {
       createdEventWasCalled++;
     }
 
-    this.set('data', chartData);
-    this.set('hook', bumpCounter);
+    this.setProperties({
+      data: chartData,
+      hook: bumpCounter,
+    });
 
-    await render(hbs`{{chartist-chart
-      data=data
-      type='line'
-      _createdEventHook=hook
-    }}`);
+    await render(hbs`<ChartistChart
+      @data={{this.data}}
+      @type="line"
+      @_createdEventHook={{this.hook}}
+    />`);
 
     await settled();
 
@@ -134,15 +138,17 @@ module('Integration | Component | chartist chart', function(hooks) {
       createdEventWasCalled++;
     }
 
-    this.set('data', chartData);
-    this.set('hook', bumpCounter);
+    this.setProperties({
+      data: chartData,
+      hook: bumpCounter,
+    });
 
-    await render(hbs`{{chartist-chart
-      data=data
-      type='line'
-      _createdEventHook=hook
-      updateOnData=false
-    }}`);
+    await render(hbs`<ChartistChart
+      @data={{this.data}}
+      @type="line"
+      @_createdEventHook={{this.hook}}
+      @updateOnData={{false}}
+    />`);
 
     await settled();
 
