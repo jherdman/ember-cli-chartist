@@ -31,12 +31,12 @@ In the template where you want the chart to appear:
 
 The data can be specified in an Ember route or controller. In the example above it's coming from the model which is defined in the route.
 
-<<<<<<< HEAD
-*/app/routes/application.js*
+`/app/routes/application.js`
+
 ```javascript
 import Route from '@ember/routing/route';
 
-export default Route.extend({
+export default class ApplicationRoute extends Route {
   model() {
     return {
       chartData: {
@@ -49,14 +49,15 @@ export default Route.extend({
       }
     }
   }
-});
+};
 ```
 
 ### Chart types
 
 There are three types of charts; line, bar, and pie. The default is line. You can change the chart type using the `type` attribute.
 
-*/app/templates/application.hbs*
+`/app/templates/application.hbs`
+
 ```
 <ChartistChart @type="bar" @data={{model.chartData}} />
 ```
@@ -65,7 +66,7 @@ There are three types of charts; line, bar, and pie. The default is line. You ca
 
 Chartist charts scale up and down in size. They do so at specified ratios. You can change the ratio using the `ratio` attribute.
 
-*/app/templates/application.hbs*
+`/app/templates/application.hbs`
 ```
 <ChartistChart @ratio="ct-golden-section" @data={{model.chartData}} />
 ```
@@ -80,25 +81,27 @@ those to the `chartist-chart` components with the `options` attribute. You'll
 need to create the options object in a similar way as you do for the `data`
 attribute object.
 
-*/app/templates/application.hbs*
+`/app/templates/application.hbs`
+
 ```
 <ChartistChart @options={{chartOptions}} @data={{model.chartData}} />
 ```
 
-*/app/controllers/application.js*
+`/app/controllers/application.js`
+
 ```javascript
 import Controller from '@ember/controller';
 
-export default Controller.extend({
-  chartOptions: {
+export default ApplicationController extends Controller {
+  chartOptions = {
     showArea: true,
     lineSmooth: false,
 
     axisX: {
       showGrid: false
     }
-  }
-});
+  };
+};
 ```
 
 See the [Chartist docs](http://gionkunz.github.io/chartist-js/api-documentation.html)
@@ -114,12 +117,13 @@ attribute. They can be used in tandem with standard `options`.
 <ChartistChart @responsiveOptions={{chartResOptions}} @data={{model.chartData}} />
 ```
 
-*/app/controllers/application.js*
+`/app/controllers/application.js`
+
 ```javascript
 import Controller from '@ember/controller';
 
-export default Controller.extend({
-  chartResOptions: [
+export default ApplicationController extends Controller {
+  chartResOptions = [
     ['screen and (min-width: 640px)', {
       showArea: true,
       lineSmooth: false,
@@ -128,8 +132,8 @@ export default Controller.extend({
         showLabel: false
       }
     }]
-  ]
-});
+  ];
+};
 ```
 
 #### Other configuration
@@ -185,22 +189,23 @@ to create a chart that shows Fish eaten over time. You don't want this chart
 tied to a specific controller, route, or model in your app. You can create a
 new component that extends `chartist-chart` like so:
 
-*/app/components/chart-fish-over-time.js*
+`/app/components/chart-fish-over-time.js`
+
 ```javascript
 import ChartistChart from './chartist-chart';
 
-export default ChartistChart.extend({
+export default ChartFishOverTime extends ChartistChart {
   init() {
     getAsyncDataThatReturnsPromise().then(function (data) {
       this.set('data', data);
     });
 
-    this._super();
+    super.init(...arguments)
   },
 
-  ratio: 'ct-minor-seventh',
+  ratio = 'ct-minor-seventh';
 
-  options: {
+  options = {
     showPoint: false,
     axisY: {
       offset: 0,
@@ -209,9 +214,9 @@ export default ChartistChart.extend({
     axisX: {
       showGrid: false,
     }
-  },
+  };
 
-  responsiveOptions: [
+  responsiveOptions = [
     ['screen and (min-width: 640px)', {
       showPoint: true,
       axisY: {
@@ -219,13 +224,14 @@ export default ChartistChart.extend({
         showLabel: true
       }
     }]
-  ]
-});
+  ];
+};
 ```
 
 With that, you can display the Fish chart in any template. For example,
 
-*/app/templates/all-about-fish.js*
+`/app/templates/all-about-fish.js`
+
 ```
 <ChartFishOverTime />
 ```
