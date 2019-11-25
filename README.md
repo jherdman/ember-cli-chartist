@@ -236,6 +236,22 @@ With that, you can display the Fish chart in any template. For example,
 <ChartFishOverTime />
 ```
 
+## Using Plugins
+
+1. Add the plugin of your choice to your dependencies, e.g. `yarn add -D chartist-plugin-fill-donut`
+2. In `ember-cli-build.js` import your plugin, e.g. `app.import('node_modules/chartist-plugin-fill-donut/dist/chartist-plugin-fill-donut.js');`
+3. In your `chartOptions` object add the plugin, e.g.
+
+```javascript
+chartOptions = {
+  plugins: [
+    Chartist.plugins.fillDonut({
+      // config of plugin
+    })
+  ],
+};
+```
+
 ## Live examples
 
 There is an example app included in this repo in `/tests/dummy/`. It contains examples of most of the functionality described above. To view those
