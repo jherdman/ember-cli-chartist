@@ -1,0 +1,10 @@
+{{yield}}
+
+<div
+  class="ct-chart {{if @ratio @ratio "ct-square"}}"
+  ...attributes
+  {{did-insert this.initializeChart}}
+  {{did-update this.updateChart @data}}
+  {{will-destroy this.teardownChart}}
+>
+</div>

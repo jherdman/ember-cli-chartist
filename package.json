@@ -35,16 +35,17 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
+    "@ember/render-modifiers": "^1.0.2",
+    "@glimmer/component": "^1.0.0",
+    "@glimmer/tracking": "^1.0.0",
     "broccoli-funnel": "^3.0.1",
     "broccoli-merge-trees": "^4.1.0",
     "chartist": "^0.11.0",
-    "ember-cli-babel": "^7.18.0",
+    "ember-cli-babel": "^7.19.0",
     "ember-cli-htmlbars": "^4.2.3"
   },
   "devDependencies": {
     "@ember/optional-features": "^1.3.0",
-    "@glimmer/component": "^1.0.0",
-    "@glimmer/tracking": "^1.0.0",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-auto-import": "^1.5.3",
@@ -54,7 +55,8 @@
     "ember-cli-sass": "^10.0.1",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-uglify": "^3.0.0",
-    "ember-concurrency": "^1.1.3",
+    "ember-concurrency": "^1.1.7",
+    "ember-concurrency-decorators": "^1.0.0",
     "ember-disable-prototype-extensions": "^1.1.3",
     "ember-export-application-global": "^2.0.1",
     "ember-load-initializers": "^2.1.1",

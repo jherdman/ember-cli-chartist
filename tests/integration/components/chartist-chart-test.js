@@ -2,19 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import ChartistChart from 'ember-cli-chartist/components/chartist-chart';
-
-ChartistChart.reopen({
-  _createdEventHook() {},
-
-  didInsertElement() {
-    this._super(...arguments);
-
-    let chart = this.chart;
-
-    chart.on('created', this._createdEventHook);
-  },
-});
 
 const chartData = {
   labels: ['Week1', 'Week2', 'Week3', 'Week4', 'Week5', 'Week6'],
@@ -81,11 +68,13 @@ module('Integration | Component | chartist chart', function(hooks) {
       ratio,
     });
 
-    await render(hbs`<ChartistChart
-      @type="line"
-      @data={{this.data}}
-      @ratio={{this.ratio}}
-    />`);
+    await render(hbs`
+      <ChartistChart
+        @type="line"
+        @data={{this.data}}
+        @ratio={{this.ratio}}
+      />
+    `);
 
     await settled();
 
@@ -111,11 +100,13 @@ module('Integration | Component | chartist chart', function(hooks) {
       hook: bumpCounter,
     });
 
-    await render(hbs`<ChartistChart
-      @data={{this.data}}
-      @type="line"
-      @_createdEventHook={{this.hook}}
-    />`);
+    await render(hbs`
+      <ChartistChart
+        @data={{this.data}}
+        @type="line"
+        @onData={{this.hook}}
+      />
+    `);
 
     await settled();
 
@@ -143,12 +134,14 @@ module('Integration | Component | chartist chart', function(hooks) {
       hook: bumpCounter,
     });
 
-    await render(hbs`<ChartistChart
-      @data={{this.data}}
-      @type="line"
-      @_createdEventHook={{this.hook}}
-      @updateOnData={{false}}
-    />`);
+    await render(hbs`
+      <ChartistChart
+        @data={{this.data}}
+        @type="line"
+        @onCreated={{this.hook}}
+        @updateOnData={{false}}
+      />
+    `);
 
     await settled();
 

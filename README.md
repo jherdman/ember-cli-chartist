@@ -9,8 +9,7 @@ It allows you to render Chartist charts in your templates using components.
 Compatibility
 ------------------------------------------------------------------------------
 
-* Ember.js v3.12 or above
-* Ember CLI v2.13 or above
+* Ember.js v3.13 or above
 * Node.js v10 or above
 * You can see which version of Chartist is used [by examining `package.json`](https://github.com/jherdman/ember-cli-chartist/blob/master/package.json).
 
@@ -28,7 +27,7 @@ In the template where you want the chart to appear:
 <ChartistChart @type="line" @data={{model.chartData}} />
 ```
 
-* `data` is a required attribute. Its value should be an object. Check the
+* `data` is an optional attribute. Its value should be an object. Check the
   [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#as-simple-as-it-can-get)
   for expected data structure.
 * `type` is a required attribute. It can be any of the recognized chat types.
@@ -189,58 +188,11 @@ For more on custom styles see the [Chartist docs](http://gionkunz.github.io/char
 
 ## Extending `chartist-chart`
 
-If you have needs that go beyond the standard component, or if you need to create a
-component of your own that uses `ChartistChart` as a base, you're in luck. Say you want
-to create a chart that shows Fish eaten over time. You don't want this chart
-tied to a specific controller, route, or model in your app. You can create a
-new component that extends `chartist-chart` like so:
+Care has been taken to provide as many knobs and parameters as you'd need to **NOT**
+extend the `<ChartistChart` component. Pass in data you need. The component _does_
+yield its template _above_ the chart.
 
-`/app/components/chart-fish-over-time.js`
-
-```javascript
-import ChartistChart from './chartist-chart';
-
-export default ChartFishOverTime extends ChartistChart {
-  init() {
-    getAsyncDataThatReturnsPromise().then(function (data) {
-      this.set('data', data);
-    });
-
-    super.init(...arguments)
-  },
-
-  ratio = 'ct-minor-seventh';
-
-  options = {
-    showPoint: false,
-    axisY: {
-      offset: 0,
-      showGrid: true,
-    },
-    axisX: {
-      showGrid: false,
-    }
-  };
-
-  responsiveOptions = [
-    ['screen and (min-width: 640px)', {
-      showPoint: true,
-      axisY: {
-        offset: 50,
-        showLabel: true
-      }
-    }]
-  ];
-};
-```
-
-With that, you can display the Fish chart in any template. For example,
-
-`/app/templates/all-about-fish.js`
-
-```
-<ChartFishOverTime />
-```
+Should you find yourself needing to extend the base class please open an issue.
 
 ## Using Plugins
 
