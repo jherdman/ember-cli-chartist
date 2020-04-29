@@ -1,17 +1,16 @@
 /* global Chartist */
-import Component from '@ember/component';
+
+import Component from '@glimmer/component';
+
+import { tracked } from '@glimmer/tracking';
 
 import { assert } from '@ember/debug';
 
-import { computed } from '@ember/object';
+import { action } from '@ember/object';
 
 import { capitalize } from '@ember/string';
 
-export default Component.extend({
-  classNameBindings: Object.freeze(['ratio']),
-
-  classNames: Object.freeze(['ct-chart']),
-
+export default class ChartistChart extends Component {
   // The ratio of the chart as it scales up/down in size.
   //
   // Available ratios:
@@ -34,72 +33,81 @@ export default Component.extend({
   // ct-major-eleventh 3:8
   // ct-major-twelfth  1:3
   // ct-double-octave  1:4
-  ratio: 'ct-square',
 
-  chart: null,
+  @tracked
+  chart = null;
 
-  data: null,
+  constructor(owner, args) {
+    super(owner, args);
 
-  options: null,
+    const { type } = args;
 
-  responsiveOptions: null,
-
-  type: null,
-
-  updateOnData: true,
-
-  // Before trying to do anything else, let's check to see if any necessary
-  // attributes are missing or if anything else is fishy about attributes
-  // provided to the component in the template.
-  //
-  // We're doing this to help ease people into this project. Instead of just
-  // getting some "uncaught exception" we're hoping these error messages will
-  // point them in the right direction.
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    let { type } = this;
-
+    // Before trying to do anything else, let's check to see if any necessary
+    // attributes are missing or if anything else is fishy about attributes
+    // provided to the component in the template.
+    //
+    // We're doing this to help ease people into this project. Instead of just
+    // getting some "uncaught exception" we're hoping these error messages will
+    // point them in the right direction.
     assert(
       'Invalid or missing "type" attribute',
       typeof type !== 'undefined' && type !== null
     );
-  },
+  }
 
-  chartType: computed('type', function() {
-    return capitalize(this.type);
-  }),
+  get chartType() {
+    return capitalize(this.args.type);
+  }
 
-  // This is where the business happens. This will only run if checkForReqs
-  // doesn't find any problems.
-  didInsertElement() {
-    this._super(...arguments);
+  get updateOnData() {
+    return this.args.updateOnData ?? true;
+  }
 
-    let {
+  @action
+  initializeChart(mountElement) {
+    const {
+      args: {
+        data,
+        options,
+        responsiveOptions,
+      },
       chartType,
-      data,
-      element,
-      options,
-      responsiveOptions,
     } = this;
 
-    let chart = new (Chartist[chartType])(
-      element,
+    const chart = new (Chartist[chartType])(
+      mountElement,
       data,
       options,
       responsiveOptions
     );
 
     this.chart = chart;
-  },
 
-  didRender() {
-    this._super(...arguments);
+    this.chart.on('created', this.onCreated);
+    this.chart.on('draw', this.onDraw);
+    this.chart.on('data', this.onData);
+  }
 
-    let {
+  get onData() {
+    return this.args.onData || function() {};
+  }
+
+  get onDraw() {
+    return this.args.onDraw || function() {};
+  }
+
+  get onCreated() {
+    return this.args.onCreated || function() {};
+  }
+
+  @action
+  updateChart() {
+    const {
+      args: {
+        data,
+        options = {},
+      },
       chart,
-      data,
-      options,
       updateOnData,
     } = this;
 
@@ -108,9 +116,12 @@ export default Component.extend({
     }
 
     if (updateOnData) {
-      let opts = options || {};
-
-      chart.update(data, opts);
+      chart.update(data, options);
     }
-  },
-});
+  }
+
+  @action
+  teardownChart() {
+    this.chart.detach();
+  }
+}

@@ -1,8 +1,6 @@
 import Route from '@ember/routing/route';
 
-import { task, timeout } from 'ember-concurrency';
-
-export default Route.extend({
+export default class ApplicationRoute extends Route {
   model() {
     return {
       chartData: {
@@ -15,32 +13,5 @@ export default Route.extend({
         ]
       }
     };
-  },
-
-  deferredComponentData: task(function * () {
-    const labels = [
-      'Salmon',
-      'Yellowtail',
-      'Dolphin',
-      'Cow',
-    ];
-
-    yield timeout(500);
-
-    this.controller.set('data', {
-      labels,
-      series: [
-        ['2', '8', '3', '9']
-      ]
-    });
-
-    yield timeout(4000);
-
-    this.controller.set('data', {
-      labels,
-      series: [
-        ['22', '18', '0', '19']
-      ],
-    });
-  }).on('activate'),
-});
+  }
+}
