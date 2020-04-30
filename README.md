@@ -223,6 +223,20 @@ ember serve
 
 The example app will be running at [http://localhost:4200](http://localhost:4200)
 
+## How do I Test My Chart?
+
+Asserting on characteristics of your chart is kind of hard as it's an SVG
+rendering. Tools like Percy may be of help with ensuring your chart looks the way
+it should. We do have an [issue open](https://github.com/jherdman/ember-cli-chartist/issues/85)
+and are interested in pull requests to help with this matter.
+
+Consider, however, that your chart may be difficult to read for people that are
+visually impaired. Consider implementing an
+[accessible data table](https://a11yproject.com/posts/accessible-data-tables/) &mdash;
+these are vastly easier to make assertions on. Note that we do not provide tooling
+for this as it's out of scope for this library, and is probably too close to your
+business domain to meaningfully abstract.
+
 
 ## Development
 
