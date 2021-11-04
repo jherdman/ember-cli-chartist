@@ -152,4 +152,34 @@ module('Integration | Component | chartist chart', function(hooks) {
       1
     );
   });
+
+  test('it should call onInit with chart instance', async function(assert) {
+    let onInitWasCalled = 0;
+
+    function bumpCounter(chart) {
+      if (typeof chart === 'object') {
+        onInitWasCalled++;
+      }
+    }
+
+    this.setProperties({
+      hook: bumpCounter,
+      data: chartData,
+    });
+
+    await render(hbs`
+      <ChartistChart
+        @data={{this.data}}
+        @type="line"
+        @onInit={{this.hook}}
+      />
+    `);
+
+    await settled();
+
+    assert.equal(
+      onInitWasCalled,
+      1
+    );
+  });
 });
