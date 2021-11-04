@@ -66,15 +66,11 @@ export default class ChartistChart extends Component {
   @action
   initializeChart(mountElement) {
     const {
-      args: {
-        data,
-        options,
-        responsiveOptions,
-      },
+      args: { data, options, responsiveOptions },
       chartType,
     } = this;
 
-    const chart = new (Chartist[chartType])(
+    const chart = new Chartist[chartType](
       mountElement,
       data,
       options,
@@ -91,24 +87,21 @@ export default class ChartistChart extends Component {
   }
 
   get onData() {
-    return this.args.onData || function() {};
+    return this.args.onData || function () {};
   }
 
   get onDraw() {
-    return this.args.onDraw || function() {};
+    return this.args.onDraw || function () {};
   }
 
   get onCreated() {
-    return this.args.onCreated || function() {};
+    return this.args.onCreated || function () {};
   }
 
   @action
   updateChart() {
     const {
-      args: {
-        data,
-        options = {},
-      },
+      args: { data, options = {} },
       chart,
       updateOnData,
     } = this;

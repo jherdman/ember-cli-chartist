@@ -9,9 +9,9 @@ export default class ApplicationRoute extends Route {
           [5, 4, 3, 7, 5, 10],
           [3, 2, 9, 5, 4, 6],
           [2, 1, -3, -4, -2, 0],
-          [8, -2, 1, 7, -3, 1]
-        ]
-      }
+          [8, -2, 1, 7, -3, 1],
+        ],
+      },
     };
   }
 }

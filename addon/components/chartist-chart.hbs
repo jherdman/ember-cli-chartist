@@ -1,7 +1,7 @@
 {{yield}}
 
 <div
-  class="ct-chart {{if @ratio @ratio "ct-square"}}"
+  class='ct-chart {{if @ratio @ratio 'ct-square'}}'
   ...attributes
   {{did-insert this.initializeChart}}
   {{did-update this.updateChart @data}}
