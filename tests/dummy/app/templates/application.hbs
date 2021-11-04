@@ -1,43 +1,34 @@
 <ChartistChart
-  @type="bar"
+  @type='bar'
   @data={{@model.chartData}}
   @responsiveOptions={{this.chartResOptions}}
-  data-test-selector="chart"
-  data-test-id="bar"
+  data-test-selector='chart'
+  data-test-id='bar'
 />
 
-<div
-  class="container"
-  {{did-insert (perform this.loadAsyncData)}}
->
+<div class='container' {{did-insert (perform this.loadAsyncData)}}>
   <ChartistChart
-    @type="bar"
+    @type='bar'
     @data={{this.deferredComponentData}}
-    @ratio="ct-minor-seventh"
+    @ratio='ct-minor-seventh'
     @options={{hash
       showPoint=false
-      axisY=(hash
-        offset=0
-        showLabel=false
-        showGrid=true
-      )
-      axisX=(hash
-        showGrid=false
-      )
+      axisY=(hash offset=0 showLabel=false showGrid=true)
+      axisX=(hash showGrid=false)
     }}
-    data-test-selector="chart"
-    data-test-id="fish"
+    data-test-selector='chart'
+    data-test-id='fish'
   >
     <h3>Some extra content in the template if needed.</h3>
   </ChartistChart>
 </div>
 
 <ChartistChart
-  @type="pie"
+  @type='pie'
   @data={{hash
-    labels=(array "Chocolate" "Apple" "Pumpkin")
+    labels=(array 'Chocolate' 'Apple' 'Pumpkin')
     series=(array 30 15 65)
   }}
-  data-test-selector="chart"
-  data-test-id="pie"
+  data-test-selector='chart'
+  data-test-id='pie'
 />

@@ -1,17 +1,15 @@
 # Chartist.js for Ember-CLI Projects
 
-[![Build Status](https://travis-ci.org/jherdman/ember-cli-chartist.svg)](https://travis-ci.org/jherdman/ember-cli-chartist)
-[![Ember Observer Score](https://emberobserver.com/badges/ember-cli-chartist.svg)](https://emberobserver.com/addons/ember-cli-chartist) 
+[![Ember Observer Score](https://emberobserver.com/badges/ember-cli-chartist.svg)](https://emberobserver.com/addons/ember-cli-chartist)
 
 This is an ember-cli wrapper for [Chartist](https://github.com/gionkunz/chartist-js).
 It allows you to render Chartist charts in your templates using components.
 
-Compatibility
-------------------------------------------------------------------------------
+## Compatibility
 
-* Ember.js v3.13 or above
-* Node.js v10 or above
-* You can see which version of Chartist is used [by examining `package.json`](https://github.com/jherdman/ember-cli-chartist/blob/master/package.json).
+- Ember.js v3.20 or above
+- Ember CLI v3.20 or above
+- Node.js v12 or above
 
 ## Setup
 
@@ -27,10 +25,10 @@ In the template where you want the chart to appear:
 <ChartistChart @type="line" @data={{model.chartData}} />
 ```
 
-* `data` is an optional attribute. Its value should be an object. Check the
+- `data` is an optional attribute. Its value should be an object. Check the
   [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#as-simple-as-it-can-get)
   for expected data structure.
-* `type` is a required attribute. It can be any of the recognized chat types.
+- `type` is a required attribute. It can be any of the recognized chat types.
 
 ### Where does the data come from?
 
@@ -49,12 +47,12 @@ export default class ApplicationRoute extends Route {
         series: [
           [5, 4, 8],
           [10, 2, 7],
-          [8, 3, 6]
-        ]
-      }
-    }
+          [8, 3, 6],
+        ],
+      },
+    };
   }
-};
+}
 ```
 
 ### Chart types
@@ -72,6 +70,7 @@ There are three types of charts; line, bar, and pie. The default is line. You ca
 Chartist charts scale up and down in size. They do so at specified ratios. You can change the ratio using the `ratio` attribute.
 
 `/app/templates/application.hbs`
+
 ```
 <ChartistChart @ratio="ct-golden-section" @data={{model.chartData}} />
 ```
@@ -164,24 +163,25 @@ In your app's `ember-cli-build.js`:
 ```javascript
 let app = new EmberApp({
   'ember-cli-chartist': {
-    'useCustomCSS': true
-  }
+    useCustomCSS: true,
+  },
 });
 ```
 
 If you use custom CSS, you'll likely want to import the Chartist Scss into your
 app's scss, you will need to install [ember-cli-sass](https://www.npmjs.com/package/ember-cli-sass).
-You can then import the Chartist scss with: 
+You can then import the Chartist scss with:
 
 In `app.scss`
+
 ```scss
-@import "chartist/chartist.scss";
+@import 'chartist/chartist.scss';
 ```
 
 you can also import the Chartist settings scss:
 
 ```scss
-@import "chartist/chartist-settings.scss";
+@import 'chartist/chartist-settings.scss';
 ```
 
 For more on custom styles see the [Chartist docs](http://gionkunz.github.io/chartist-js/getting-started.html#the-sass-way)
@@ -205,7 +205,7 @@ chartOptions = {
   plugins: [
     Chartist.plugins.fillDonut({
       // config of plugin
-    })
+    }),
   ],
 };
 ```
@@ -237,28 +237,10 @@ these are vastly easier to make assertions on. Note that we do not provide tooli
 for this as it's out of scope for this library, and is probably too close to your
 business domain to meaningfully abstract.
 
+## Contributing
 
-## Development
+See the [Contributing](CONTRIBUTING.md) guide for details.
 
-If you'd like to contribute to this project, that would be swell. Here are some details on doing that.
+## License
 
-### Installation
-
-* `git clone` this repository
-* `yarn install`
-
-### Running
-
-* `ember server`
-* Visit your app at http://localhost:4200.
-
-### Linting
-
-* `yarn lint:js`
-* `yarn lint:js -- --fix`
-* `yarn lint:hbs`
-
-### Running Tests
-
-* `ember test`
-* `ember test --server`
+This project is licensed under the [MIT License](LICENSE.md).

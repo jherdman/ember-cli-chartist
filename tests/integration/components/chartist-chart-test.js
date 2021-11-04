@@ -8,21 +8,19 @@ const chartData = {
   series: [
     [5, 4, 3, 7, 5, 10],
     [3, 2, 9, 5, 4, 6],
-    [2, 1, -3, -4, -2, 0]
-  ]
+    [2, 1, -3, -4, -2, 0],
+  ],
 };
 
 const pieChartData = {
   labels: ['Pizza', 'Fish', 'Puppies'],
-  series: [
-    [40, 25, 25]
-  ]
+  series: [[40, 25, 25]],
 };
 
-module('Integration | Component | chartist chart', function(hooks) {
+module('Integration | Component | chartist chart', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it can be a line chart', async function(assert) {
+  test('it can be a line chart', async function (assert) {
     assert.expect(1);
 
     this.set('data', chartData);
@@ -34,7 +32,7 @@ module('Integration | Component | chartist chart', function(hooks) {
     assert.dom('.ct-chart .ct-chart-line').exists();
   });
 
-  test('it can be a bar chart', async function(assert) {
+  test('it can be a bar chart', async function (assert) {
     assert.expect(1);
 
     this.set('data', chartData);
@@ -46,7 +44,7 @@ module('Integration | Component | chartist chart', function(hooks) {
     assert.dom('.ct-chart .ct-chart-bar').exists();
   });
 
-  test('it can be a pie chart', async function(assert) {
+  test('it can be a pie chart', async function (assert) {
     assert.expect(1);
 
     this.set('data', pieChartData);
@@ -58,7 +56,7 @@ module('Integration | Component | chartist chart', function(hooks) {
     assert.dom('.ct-chart .ct-chart-pie').exists();
   });
 
-  test('it can have different ratios', async function(assert) {
+  test('it can have different ratios', async function (assert) {
     const ratio = 'ct-minor-second';
 
     assert.expect(1);
@@ -81,14 +79,12 @@ module('Integration | Component | chartist chart', function(hooks) {
     assert.dom('.ct-chart').hasClass(ratio);
   });
 
-  test('it should update the chart when data is changed', async function(assert) {
+  test('it should update the chart when data is changed', async function (assert) {
     let createdEventWasCalled = 0;
 
     let newData = {
       labels: ['Week1', 'Week2', 'Week3', 'Week4', 'Week5', 'Week6'],
-      series: [
-        [8, 10, 31, 17, 25, 11]
-      ]
+      series: [[8, 10, 31, 17, 25, 11]],
     };
 
     function bumpCounter() {
@@ -115,14 +111,12 @@ module('Integration | Component | chartist chart', function(hooks) {
     assert.equal(createdEventWasCalled, 2);
   });
 
-  test('it should not automatically update when updateOnData is false', async function(assert) {
+  test('it should not automatically update when updateOnData is false', async function (assert) {
     let createdEventWasCalled = 0;
 
     let newData = {
       labels: ['Week1', 'Week2', 'Week3', 'Week4', 'Week5', 'Week6'],
-      series: [
-        [8, 10, 31, 17, 25, 11]
-      ]
+      series: [[8, 10, 31, 17, 25, 11]],
     };
 
     function bumpCounter() {
@@ -147,10 +141,7 @@ module('Integration | Component | chartist chart', function(hooks) {
 
     this.set('data', newData);
 
-    assert.equal(
-      createdEventWasCalled,
-      1
-    );
+    assert.equal(createdEventWasCalled, 1);
   });
 
   test('it should call onInit with chart instance', async function(assert) {

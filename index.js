@@ -22,10 +22,7 @@ module.exports = {
 
   treeForVendor(vendorTree) {
     const chartistTree = new Funnel(this.chartistPath, {
-      files: [
-        'chartist.js',
-        'chartist.css',
-      ],
+      files: ['chartist.js', 'chartist.css'],
     });
 
     return vendorTree ? mergeTrees([vendorTree, chartistTree]) : chartistTree;

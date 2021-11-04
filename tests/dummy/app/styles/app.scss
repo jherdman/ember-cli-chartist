@@ -1,14 +1,9 @@
 // To customize the colors of each series both of these variables are required.
 // ct-series-names needs to be the same length as ct-series-colors.
 $ct-series-names: (a, b, c, d);
-$ct-series-colors: (
-  #E91E63,
-  #42A5F5,
-  #66BB6A,
-  #FF9800
-);
+$ct-series-colors: (#e91e63, #42a5f5, #66bb6a, #ff9800);
 
-@import "chartist/chartist.scss";
+@import 'chartist/chartist.scss';
 
 .container {
   font-family: helvetica, arial, sans-serif;
