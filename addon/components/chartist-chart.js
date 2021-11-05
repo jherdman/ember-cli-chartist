@@ -1,13 +1,9 @@
 /* global Chartist */
 
 import Component from '@glimmer/component';
-
 import { tracked } from '@glimmer/tracking';
-
 import { assert } from '@ember/debug';
-
 import { action } from '@ember/object';
-
 import { capitalize } from '@ember/string';
 
 export default class ChartistChart extends Component {
