@@ -25,10 +25,7 @@
 
 <ChartistChart
   @type='pie'
-  @data={{hash
-    labels=(array 'Chocolate' 'Apple' 'Pumpkin')
-    series=(array 30 15 65)
-  }}
+  @data={{this.pieData}}
   data-test-selector='chart'
   data-test-id='pie'
 />
