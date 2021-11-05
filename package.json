@@ -45,6 +45,7 @@
     "broccoli-funnel": "^3.0.1",
     "broccoli-merge-trees": "^4.1.0",
     "chartist": "^0.11.0",
+    "ember-auto-import": "^1.11.3",
     "ember-cli-babel": "^7.26.6",
     "ember-cli-htmlbars": "^5.7.1"
   },
@@ -54,7 +55,6 @@
     "@embroider/test-setup": "^0.47.0",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
-    "ember-auto-import": "^1.11.3",
     "ember-cli": "~3.28.3",
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-inject-live-reload": "^2.1.0",
