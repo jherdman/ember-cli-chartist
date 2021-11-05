@@ -16,6 +16,7 @@ It allows you to render Chartist charts in your templates using components.
 
 - Ember.js v3.20 or above
 - Ember CLI v3.20 or above
+- ember-auto-import v2 required
 - Node.js v12 or above
 
 ## Setup
