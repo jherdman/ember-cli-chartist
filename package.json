@@ -45,7 +45,7 @@
     "broccoli-funnel": "^3.0.1",
     "broccoli-merge-trees": "^4.1.0",
     "chartist": "^0.11.0",
-    "ember-auto-import": "^1.11.3",
+    "ember-auto-import": "^2.2.3",
     "ember-cli-babel": "^7.26.6",
     "ember-cli-htmlbars": "^5.7.1"
   },
@@ -86,7 +86,8 @@
     "prettier": "^2.3.2",
     "qunit": "^2.16.0",
     "qunit-dom": "^2.0.0",
-    "sass": "^1.23.0"
+    "sass": "^1.23.0",
+    "webpack": "^5.62.1"
   },
   "engines": {
     "node": "12.* || 14.* || >= 16"
