@@ -1,3 +1,5 @@
+/* eslint-disable ember/no-settled-after-test-helper */
+
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
@@ -144,7 +146,7 @@ module('Integration | Component | chartist chart', function (hooks) {
     assert.equal(createdEventWasCalled, 1);
   });
 
-  test('it should call onInit with chart instance', async function(assert) {
+  test('it should call onInit with chart instance', async function (assert) {
     let onInitWasCalled = 0;
 
     function bumpCounter(chart) {
@@ -168,9 +170,6 @@ module('Integration | Component | chartist chart', function (hooks) {
 
     await settled();
 
-    assert.equal(
-      onInitWasCalled,
-      1
-    );
+    assert.equal(onInitWasCalled, 1);
   });
 });
