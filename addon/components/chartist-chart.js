@@ -86,6 +86,8 @@ export default class ChartistChart extends Component {
     this.chart.on('created', this.onCreated);
     this.chart.on('draw', this.onDraw);
     this.chart.on('data', this.onData);
+
+    this.args.onInit?.(this.chart);
   }
 
   get onData() {
