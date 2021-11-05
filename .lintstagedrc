@@ -1,0 +1,12 @@
+{
+  "**/*.{css,html,json,md,yml}": [
+    "prettier --write"
+  ],
+  "**/*.{js,ts}": [
+    "eslint --fix",
+    "prettier --write"
+  ],
+  "**/*.hbs": [
+    "ember-template-lint --fix"
+  ]
+}
