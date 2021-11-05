@@ -13,8 +13,6 @@ module.exports = {
     this.chartistPath = path.dirname(require.resolve('chartist'));
     this.appOptions = app.options['ember-cli-chartist'] || {};
 
-    app.import('vendor/chartist.js');
-
     if (!this.appOptions.useCustomCSS) {
       app.import('vendor/chartist.css');
     }
@@ -22,7 +20,7 @@ module.exports = {
 
   treeForVendor(vendorTree) {
     const chartistTree = new Funnel(this.chartistPath, {
-      files: ['chartist.js', 'chartist.css'],
+      files: ['chartist.css'],
     });
 
     return vendorTree ? mergeTrees([vendorTree, chartistTree]) : chartistTree;

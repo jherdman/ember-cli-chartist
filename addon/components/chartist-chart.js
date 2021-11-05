@@ -1,10 +1,9 @@
-/* global Chartist */
-
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { capitalize } from '@ember/string';
+import Chartist from 'chartist';
 
 export default class ChartistChart extends Component {
   // The ratio of the chart as it scales up/down in size.
