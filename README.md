@@ -5,6 +5,13 @@
 This is an ember-cli wrapper for [Chartist](https://github.com/gionkunz/chartist-js).
 It allows you to render Chartist charts in your templates using components.
 
+## Important note
+
+- You should probably not use this addon as Chartist is not maintained.
+- Per the previous **this package is also in maintenance mode only**
+- Consider easing your upgrade burden by copying the component code to your
+  application (along with the license) as this is MIT licensed.
+
 ## Compatibility
 
 - Ember.js v3.20 or above
@@ -15,13 +22,13 @@ It allows you to render Chartist charts in your templates using components.
 
 In an existing ember-cli project. Install with:
 
-```
+```shell
 ember install ember-cli-chartist
 ```
 
 In the template where you want the chart to appear:
 
-```
+```hbs
 <ChartistChart @type="line" @data={{model.chartData}} />
 ```
 
@@ -61,7 +68,7 @@ There are three types of charts; line, bar, and pie. The default is line. You ca
 
 `/app/templates/application.hbs`
 
-```
+```hbs
 <ChartistChart @type="bar" @data={{model.chartData}} />
 ```
 
@@ -71,7 +78,7 @@ Chartist charts scale up and down in size. They do so at specified ratios. You c
 
 `/app/templates/application.hbs`
 
-```
+```hbs
 <ChartistChart @ratio="ct-golden-section" @data={{model.chartData}} />
 ```
 
@@ -87,7 +94,7 @@ attribute object.
 
 `/app/templates/application.hbs`
 
-```
+```hbs
 <ChartistChart @options={{chartOptions}} @data={{model.chartData}} />
 ```
 
@@ -117,7 +124,7 @@ You can also configure your charts based on media queries. The same
 configuration options are available, but you provide them via the `responsiveOptions`
 attribute. They can be used in tandem with standard `options`.
 
-```
+```hbs
 <ChartistChart @responsiveOptions={{chartResOptions}} @data={{model.chartData}} />
 ```
 
@@ -150,7 +157,7 @@ changed, the chart will be updated to reflect the data. That can be turned off
 by setting updateOnData to false. Note: If you use this option, you will have
 to manually draw and redraw the chart using Chartist methods.
 
-```
+```hbs
 <ChartistChart @updateOnData={{false}} />
 ```
 
@@ -215,7 +222,7 @@ chartOptions = {
 There is an example app included in this repo in `/tests/dummy/`. It contains examples of most of the functionality described above. To view those
 examples you'll need to clone this repo and start the Ember cli server.
 
-```
+```shell
 git clone https://github.com/jherdman/ember-cli-chartist.git
 cd ember-cli-chartist
 ember serve
